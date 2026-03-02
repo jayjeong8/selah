@@ -273,7 +273,7 @@
 
 .bs-mode-icon {
   margin-bottom: 10px;
-  color: var(--bs-accent);
+  color: var(--bs-border);
   display: flex;
   align-items: center;
   justify-content: center;
