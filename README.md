@@ -13,21 +13,26 @@ A collection of faith-based web services for biblical engagement, inspired by th
 A meditative scripture transcription tool — type the Word, one verse at a time.
 
 - **Two modes**: Sequential (chapter-by-chapter) and Random (curated passages)
-- **11 Bible translations** across 7 languages (Korean, English, Spanish, French, German, Chinese, Japanese)
+- **32 Bible translations** across 7 languages (Korean, English, Spanish, French, German, Chinese, Japanese)
+- Dual data sources: [YouVersion](https://www.youversion.com/) API and [helloao.org](https://helloao.org/)
+- Copyright attribution for licensed translations
 - Progress tracking and bookmarks
-- Meditative typing sounds
-- Offline-capable (IndexedDB)
+- Language filter for quick translation selection
+- Meditative typing sounds (correct, error, verse-done, chapter-done)
+- Offline-capable with IndexedDB caching
 - Dark mode
 - Data export/import
 
 ## Tech Stack
 
-- [Next.js](https://nextjs.org/) 16
-- [React](https://react.dev/) 19
+- [Next.js](https://nextjs.org/) 16 / [React](https://react.dev/) 19
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/) 4
+- [Radix UI](https://www.radix-ui.com/) / [Lucide](https://lucide.dev/) icons
 - [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) via [idb](https://github.com/jakearchibald/idb)
+- [Zod](https://zod.dev/) (schema validation)
 - [Biome](https://biomejs.dev/) (lint & format)
+- [Lefthook](https://github.com/evilmartians/lefthook) (git hooks)
 
 ## Getting Started
 
@@ -40,6 +45,9 @@ pnpm dev
 
 # Build for production
 pnpm build
+
+# Lint & format
+pnpm lint:fix && pnpm format
 ```
 
 ## Project Structure
@@ -50,12 +58,17 @@ selah/
 │   └── src/
 │       ├── app/
 │       │   ├── (services)/
-│       │   │   └── bible-scribe/   # Bible Scribe service
-│       │   ├── layout.tsx           # Root layout
-│       │   └── page.tsx             # Home page
-│       ├── components/              # Shared components
-│       └── lib/                     # Shared utilities
-└── docs/                            # Documentation & plans
+│       │   │   └── bible-scribe/
+│       │   │       ├── _components/   # Service UI components
+│       │   │       ├── _hooks/        # Custom hooks (API, DB, sound, typing)
+│       │   │       └── _lib/          # API adapters, translations, types
+│       │   ├── api/
+│       │   │   └── youversion/        # YouVersion API proxy
+│       │   ├── layout.tsx
+│       │   └── page.tsx
+│       ├── components/                # Shared components
+│       └── lib/                       # Shared utilities
+└── docs/                              # Documentation & plans
 ```
 
 ## License
