@@ -450,20 +450,34 @@
 .bs-typing-header {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
+  position: relative;
   margin-bottom: 16px;
   padding-bottom: 8px;
   border-bottom: 1px solid var(--bs-track);
 }
 
+.bs-typing-header .bs-back-btn {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+}
+
 .bs-typing-location {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--bs-ink);
   letter-spacing: 0.02em;
+  pointer-events: none;
 }
 
 .bs-typing-counter {
+  position: relative;
+  z-index: 1;
   font-size: 0.75rem;
   color: var(--bs-secondary);
   font-style: italic;
@@ -728,6 +742,34 @@
 
 .bs-bookmark-delete:hover {
   color: var(--bs-error);
+}
+
+/* ── Nav Header (back + centered title) ── */
+
+.bs-nav-header {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 16px;
+  min-height: 28px;
+  flex-shrink: 0;
+}
+
+.bs-nav-header .bs-back-btn {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+}
+
+.bs-nav-title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--bs-ink);
+  pointer-events: none;
 }
 
 /* ── Buttons ── */

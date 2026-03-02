@@ -21,10 +21,12 @@ export function ChapterSelect({
 
   return (
     <div className="bs-fade-in bs-chapter-select-inner">
-      <button type="button" className="bs-back-btn" onClick={onBack}>
-        &larr; Back
-      </button>
-      <div style={{ fontSize: "1.1rem", fontWeight: 600, margin: "8px 0 16px" }}>{bookName}</div>
+      <div className="bs-nav-header">
+        <button type="button" className="bs-back-btn" onClick={onBack}>
+          &larr; Back
+        </button>
+        <div className="bs-nav-title">{bookName}</div>
+      </div>
 
       <div className="bs-chapter-grid">
         {chapters.map((ch) => {

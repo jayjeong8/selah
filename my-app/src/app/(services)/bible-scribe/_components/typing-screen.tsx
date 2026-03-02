@@ -39,11 +39,11 @@ export function TypingScreen({
 
   return (
     <div className="bs-slide-up">
-      <button type="button" className="bs-back-btn" onClick={onBack}>
-        &larr; Back
-      </button>
       {/* Header row */}
       <div className="bs-typing-header">
+        <button type="button" className="bs-back-btn" onClick={onBack}>
+          &larr; Back
+        </button>
         <div className="bs-typing-location">
           {bookName} {chapter}
         </div>

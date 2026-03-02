@@ -103,10 +103,12 @@ export function BookSelect({
 
   return (
     <div className="bs-fade-in bs-book-select-inner">
-      <button type="button" className="bs-back-btn" onClick={onBack}>
-        &larr; Back
-      </button>
-      <div style={{ fontSize: "1.1rem", fontWeight: 600, margin: "8px 0 16px" }}>Choose a Book</div>
+      <div className="bs-nav-header">
+        <button type="button" className="bs-back-btn" onClick={onBack}>
+          &larr; Back
+        </button>
+        <div className="bs-nav-title">Choose a Book</div>
+      </div>
 
       {isNewTestamentOnly ? (
         <div className="bs-book-scroll-area">{renderBookGrid(ntBooks)}</div>

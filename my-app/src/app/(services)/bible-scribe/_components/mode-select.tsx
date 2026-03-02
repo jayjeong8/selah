@@ -24,11 +24,13 @@ export function ModeSelect({
 
   return (
     <div className="bs-fade-in">
-      <button type="button" className="bs-back-btn" onClick={onChangeTranslation}>
-        &larr; Back
-      </button>
-      <div style={{ textAlign: "center", marginBottom: 20 }}>
-        <div style={{ fontSize: "1.125rem", color: "var(--bs-secondary)" }}>{translationName}</div>
+      <div className="bs-nav-header">
+        <button type="button" className="bs-back-btn" onClick={onChangeTranslation}>
+          &larr; Back
+        </button>
+        <div className="bs-nav-title" style={{ color: "var(--bs-secondary)" }}>
+          {translationName}
+        </div>
       </div>
 
       <div className="bs-mode-grid">
