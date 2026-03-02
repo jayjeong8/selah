@@ -2,7 +2,7 @@
 
 import { useCallback, useRef } from "react";
 import { applyADSR } from "../../_shared-audio/adsr";
-import { playMicroBell } from "../../_shared-audio/bell";
+import { playBell, playMicroBell } from "../../_shared-audio/bell";
 import { createMasterBus } from "../../_shared-audio/master-bus";
 import { createReverbIR } from "../../_shared-audio/reverb";
 
@@ -218,39 +218,17 @@ function playError(ctx: AudioContext, dest: AudioNode, now: number, jitter: numb
 }
 
 /**
- * Verse done — monastery bell
- * Rich bell tone with inharmonic partials characteristic of cast bronze bells.
- * Long sustain and cathedral reverb tail.
+ * Verse done — large cast bronze monastery bell
+ * 10 Rayleigh partials + 2 beating pairs + strike transient.
+ * Total dry duration ~4s, with reverb tail ~6-7s.
  */
 function playVerseDone(ctx: AudioContext, dest: AudioNode, now: number, jitter: number) {
-  const fundamental = 349 * jitter; // F4 — solemn and warm
-
-  // Bell partials (slightly inharmonic, as real bells are)
-  const partials = [
-    { ratio: 1.0, type: "sine" as const, peak: 0.13, decay: 0.15, release: 0.6 },
-    { ratio: 2.0, type: "sine" as const, peak: 0.06, decay: 0.1, release: 0.45 },
-    { ratio: 2.09, type: "sine" as const, peak: 0.04, decay: 0.08, release: 0.35 },
-    { ratio: 3.0, type: "sine" as const, peak: 0.025, decay: 0.07, release: 0.3 },
-    { ratio: 4.16, type: "sine" as const, peak: 0.012, decay: 0.05, release: 0.2 },
-  ];
-
-  for (const p of partials) {
-    const osc = ctx.createOscillator();
-    osc.type = p.type;
-    osc.frequency.value = fundamental * p.ratio;
-    const g = ctx.createGain();
-    applyADSR(g, now, {
-      attack: 0.003,
-      decay: p.decay,
-      sustain: 0.25,
-      release: p.release,
-      peak: p.peak,
-    });
-    osc.connect(g);
-    g.connect(dest);
-    osc.start(now);
-    osc.stop(now + p.decay + 0.25 + p.release + 0.1);
-  }
+  playBell(ctx, dest, now, {
+    fundamental: 349 * jitter, // F4 — solemn and warm
+    amplitude: 0.13,
+    duration: 4.0,
+    strikeIntensity: 1.0,
+  });
 }
 
 /**
