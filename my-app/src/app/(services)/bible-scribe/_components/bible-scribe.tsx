@@ -424,6 +424,7 @@ export function BibleScribe() {
               typingState={typing.state}
               verseText={currentVerse.text}
               composingText={composingText}
+              copyright={getTranslationById(db.settings?.translationId ?? "")?.copyright}
               onBack={() => setPhase(mode === "sequential" ? "chapter-select" : "mode-select")}
               onJumpVerse={(idx) => {
                 if (mode === "sequential") {

@@ -814,6 +814,17 @@
   transition: width 0.4s ease;
 }
 
+/* ── Copyright Notice ── */
+
+.bs-copyright {
+  font-size: 0.6rem;
+  color: var(--bs-secondary);
+  text-align: center;
+  margin-top: 8px;
+  font-style: italic;
+  opacity: 0.7;
+}
+
 /* ── Bookmarks View ── */
 
 .bs-bookmark-list {
