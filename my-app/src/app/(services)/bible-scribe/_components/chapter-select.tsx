@@ -20,7 +20,7 @@ export function ChapterSelect({
   const chapters = Array.from({ length: totalChapters }, (_, i) => i + 1);
 
   return (
-    <div className="bs-fade-in">
+    <div className="bs-fade-in bs-chapter-select-inner">
       <button type="button" className="bs-back-btn" onClick={onBack}>
         &larr; Back
       </button>

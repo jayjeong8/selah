@@ -353,12 +353,21 @@
 
 /* ── Chapter Select ── */
 
+.bs-chapter-select-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+
 .bs-chapter-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 6px;
-  max-height: 400px;
+  flex: 1;
   overflow-y: auto;
+  align-content: start;
 }
 
 .bs-chapter-btn {
