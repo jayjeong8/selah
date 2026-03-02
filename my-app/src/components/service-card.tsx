@@ -7,9 +7,10 @@ interface ServiceCardProps {
   description: string;
   href: string;
   icon: LucideIcon;
+  className?: string;
 }
 
-export function ServiceCard({ title, description, href, icon: Icon }: ServiceCardProps) {
+export function ServiceCard({ title, description, href, icon: Icon, className }: ServiceCardProps) {
   return (
     <Link
       href={href}
@@ -18,6 +19,7 @@ export function ServiceCard({ title, description, href, icon: Icon }: ServiceCar
         "transition-colors duration-200",
         "hover:border-ring/50 hover:bg-accent",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        className,
       )}
     >
       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-muted">
