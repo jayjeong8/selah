@@ -100,27 +100,29 @@ export function BookSelect({
   }
 
   return (
-    <div className="bs-fade-in">
+    <div className="bs-fade-in bs-book-select-inner">
       <button type="button" className="bs-back-btn" onClick={onBack}>
         &larr; Back
       </button>
       <div style={{ fontSize: "1.1rem", fontWeight: 600, margin: "8px 0 16px" }}>Choose a Book</div>
 
-      {!isNewTestamentOnly && otBooks.length > 0 && (
-        <>
-          <div className="bs-section-label">Old Testament</div>
-          {renderBookGrid(otBooks)}
-        </>
-      )}
+      <div className="bs-book-scroll-area">
+        {!isNewTestamentOnly && otBooks.length > 0 && (
+          <>
+            <div className="bs-section-label">Old Testament</div>
+            {renderBookGrid(otBooks)}
+          </>
+        )}
 
-      {ntBooks.length > 0 && (
-        <>
-          <div className="bs-section-label" style={{ marginTop: isNewTestamentOnly ? 0 : 20 }}>
-            New Testament
-          </div>
-          {renderBookGrid(ntBooks)}
-        </>
-      )}
+        {ntBooks.length > 0 && (
+          <>
+            <div className="bs-section-label" style={{ marginTop: isNewTestamentOnly ? 0 : 20 }}>
+              New Testament
+            </div>
+            {renderBookGrid(ntBooks)}
+          </>
+        )}
+      </div>
     </div>
   );
 }

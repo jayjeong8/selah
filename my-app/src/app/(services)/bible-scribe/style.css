@@ -302,6 +302,20 @@
 
 /* ── Book Select ── */
 
+.bs-book-select-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.bs-book-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
 .bs-book-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
