@@ -23,6 +23,7 @@ export const TRANSLATIONS: TranslationMeta[] = [
     flag: "🇰🇷",
     bookCount: 66,
     source: "helloao",
+    copyright: "Public domain.",
   },
   // English
   {
@@ -46,6 +47,7 @@ export const TRANSLATIONS: TranslationMeta[] = [
     flag: "🇺🇸",
     bookCount: 66,
     source: "helloao",
+    copyright: "Berean Standard Bible (BSB)\nDedicated to the public domain.\nberean.bible",
   },
   {
     id: "yv:59",
@@ -92,6 +94,7 @@ export const TRANSLATIONS: TranslationMeta[] = [
     flag: "🇺🇸",
     bookCount: 66,
     source: "helloao",
+    copyright: "Public domain.",
   },
   {
     id: "yv:114",
@@ -114,6 +117,7 @@ export const TRANSLATIONS: TranslationMeta[] = [
     flag: "🇺🇸",
     bookCount: 66,
     source: "helloao",
+    copyright: "Public domain.",
   },
   // Spanish
   {
@@ -149,6 +153,7 @@ export const TRANSLATIONS: TranslationMeta[] = [
     flag: "🇪🇸",
     bookCount: 66,
     source: "helloao",
+    copyright: "Reina Valera Gómez (RVG)\nFreely distributed.",
   },
   {
     id: "yv:52",
@@ -183,6 +188,7 @@ export const TRANSLATIONS: TranslationMeta[] = [
     flag: "🇪🇸",
     bookCount: 66,
     source: "helloao",
+    copyright: "Public domain.",
   },
   // French
   {
@@ -230,6 +236,7 @@ export const TRANSLATIONS: TranslationMeta[] = [
     flag: "🇫🇷",
     bookCount: 66,
     source: "helloao",
+    copyright: "Public domain.",
   },
   // German
   {
@@ -265,6 +272,7 @@ export const TRANSLATIONS: TranslationMeta[] = [
     flag: "🇩🇪",
     bookCount: 66,
     source: "helloao",
+    copyright: "Public domain.",
   },
   // Chinese
   {
@@ -312,6 +320,7 @@ export const TRANSLATIONS: TranslationMeta[] = [
     flag: "🇨🇳",
     bookCount: 66,
     source: "helloao",
+    copyright: "Public domain.",
   },
   {
     id: "yv:139",
@@ -346,6 +355,7 @@ export const TRANSLATIONS: TranslationMeta[] = [
     flag: "🇹🇼",
     bookCount: 66,
     source: "helloao",
+    copyright: "Public domain.",
   },
   // Japanese
   {
@@ -369,6 +379,7 @@ export const TRANSLATIONS: TranslationMeta[] = [
     flag: "🇯🇵",
     bookCount: 66,
     source: "youversion",
+    copyright: "Public domain.",
   },
   {
     id: "jpn_loc",
@@ -379,6 +390,7 @@ export const TRANSLATIONS: TranslationMeta[] = [
     flag: "🇯🇵",
     bookCount: 27,
     source: "helloao",
+    copyright: "Public domain.",
   },
 ];
 

@@ -145,7 +145,7 @@ export function TypingScreen({
       </div>
 
       {/* Copyright notice */}
-      {copyright && <div className="bs-copyright">{copyright.split("\n")[0]}</div>}
+      {copyright && <div className="bs-copyright">{copyright}</div>}
     </div>
   );
 }
