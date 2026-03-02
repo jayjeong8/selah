@@ -24,8 +24,11 @@ export function ModeSelect({
 
   return (
     <div className="bs-fade-in">
+      <button type="button" className="bs-back-btn" onClick={onChangeTranslation}>
+        &larr; Back
+      </button>
       <div style={{ textAlign: "center", marginBottom: 20 }}>
-        <div style={{ fontSize: "0.8rem", color: "var(--bs-secondary)" }}>{translationName}</div>
+        <div style={{ fontSize: "1.125rem", color: "var(--bs-secondary)" }}>{translationName}</div>
       </div>
 
       <div className="bs-mode-grid">
@@ -46,22 +49,6 @@ export function ModeSelect({
           <div className="bs-mode-desc">Curated passages from popular books</div>
         </button>
       </div>
-
-      <button
-        type="button"
-        className="bs-back-btn"
-        style={{
-          marginTop: 16,
-          display: "block",
-          width: "100%",
-          textAlign: "center",
-          fontSize: "1.125rem",
-          padding: "6px 0",
-        }}
-        onClick={onChangeTranslation}
-      >
-        Change translation
-      </button>
     </div>
   );
 }
