@@ -2,7 +2,7 @@
 
 import { useCallback, useRef } from "react";
 import { applyADSR } from "../../_shared-audio/adsr";
-import { playBell } from "../../_shared-audio/bell";
+import { playBell, playMicroBell } from "../../_shared-audio/bell";
 import { createMasterBus } from "../../_shared-audio/master-bus";
 import { createReverbIR } from "../../_shared-audio/reverb";
 
@@ -138,38 +138,16 @@ export function useKeySound() {
 }
 
 /**
- * Correct keystroke — clean warm sine tone (목탁)
- * Pure sine fundamental (F4 349Hz) + soft octave harmonic.
- * Fixed pitch with ±2% jitter, ~130ms exponential decay.
+ * Correct keystroke — micro bell (F3 ~174Hz)
+ * 4 Rayleigh partials + minimal strike for natural clarity.
+ * Short 180ms duration — subtle and non-intrusive.
  */
 function playCorrect(ctx: AudioContext, dest: AudioNode, now: number, jitter: number) {
-  const freq = 349 * jitter; // F4
-
-  // Fundamental — pure sine
-  const osc1 = ctx.createOscillator();
-  osc1.type = "sine";
-  osc1.frequency.value = freq;
-  const g1 = ctx.createGain();
-  g1.gain.setValueAtTime(0.001, now);
-  g1.gain.linearRampToValueAtTime(0.11, now + 0.003); // 3ms attack
-  g1.gain.exponentialRampToValueAtTime(0.001, now + 0.13); // ~130ms decay
-  osc1.connect(g1);
-  g1.connect(dest);
-  osc1.start(now);
-  osc1.stop(now + 0.15);
-
-  // Octave harmonic — soft warmth
-  const osc2 = ctx.createOscillator();
-  osc2.type = "sine";
-  osc2.frequency.value = freq * 2;
-  const g2 = ctx.createGain();
-  g2.gain.setValueAtTime(0.001, now);
-  g2.gain.linearRampToValueAtTime(0.03, now + 0.003);
-  g2.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
-  osc2.connect(g2);
-  g2.connect(dest);
-  osc2.start(now);
-  osc2.stop(now + 0.12);
+  playMicroBell(ctx, dest, now, {
+    fundamental: 174.6 * jitter, // F3
+    amplitude: 0.09,
+    duration: 0.3,
+  });
 }
 
 /**
