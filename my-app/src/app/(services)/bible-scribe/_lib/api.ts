@@ -213,8 +213,10 @@ function parseYvHtmlVerses(html: string): BibleVerse[] {
     const textSlice = nextVerseIdx >= 0 ? rawSlice.slice(0, nextVerseIdx) : rawSlice;
 
     const text = textSlice
+      .replace(/<\/div>/g, " ")
       .replace(/<[^>]+>/g, "")
       .replace(/&[a-z]+;/g, "")
+      .replace(/\s+/g, " ")
       .trim();
 
     if (text) {
