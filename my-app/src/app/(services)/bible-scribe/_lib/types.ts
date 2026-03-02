@@ -49,25 +49,11 @@ export interface Bookmark {
   savedAt: string;
 }
 
-export interface GraceDayState {
-  usedThisWeek: boolean;
-  usedDate: string | null; // ISO date string (YYYY-MM-DD)
-  weekStart: string; // ISO date of the Monday that started this tracking week
-}
-
-export interface StreakData {
-  currentStreak: number;
-  longestStreak: number;
-  activeDates: string[]; // ISO date strings (YYYY-MM-DD)
-  graceDayActive: boolean; // true if today's streak is preserved by a grace day
-}
-
 export interface BibleScribeSettings {
   translationId: string;
   soundEnabled: boolean;
   lastBookCode?: string;
   lastChapter?: number;
-  graceDayState?: GraceDayState;
   darkMode?: "auto" | "light" | "dark";
 }
 
