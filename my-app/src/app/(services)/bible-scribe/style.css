@@ -481,6 +481,26 @@
   font-size: 0.75rem;
   color: var(--bs-secondary);
   font-style: italic;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 0;
+  font-family: inherit;
+  transition: color 0.3s;
+}
+
+.bs-typing-counter:hover {
+  color: var(--bs-gold);
+}
+
+.bs-verse-picker {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  align-content: start;
 }
 
 /* Verse label — illuminated initial style */

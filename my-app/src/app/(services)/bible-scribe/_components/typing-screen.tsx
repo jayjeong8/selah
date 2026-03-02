@@ -1,17 +1,17 @@
 import { ArrowRight, Bookmark } from "lucide-react";
+import { useState } from "react";
 import type { TypingState } from "../_hooks/use-typing-engine";
 
 interface Props {
   bookName: string;
   chapter: number;
-  verseNumber: number;
   verseIdx: number;
   totalVerses: number;
   typingState: TypingState;
   verseText: string;
   composingText: string;
-  showBookmarkBtn: boolean;
   onBack: () => void;
+  onJumpVerse: (verseIdx: number) => void;
   onTapArea: () => void;
   onAddBookmark: () => void;
   onContinue: () => void;
@@ -20,18 +20,19 @@ interface Props {
 export function TypingScreen({
   bookName,
   chapter,
-  verseNumber,
   verseIdx,
   totalVerses,
   typingState,
   verseText,
   composingText,
-  showBookmarkBtn,
   onBack,
+  onJumpVerse,
   onTapArea,
   onAddBookmark,
   onContinue,
 }: Props) {
+  const [showVersePicker, setShowVersePicker] = useState(false);
+  const verseNumbers = Array.from({ length: totalVerses }, (_, i) => i + 1);
   const progressPct =
     totalVerses > 0 ? ((verseIdx + (typingState.done ? 1 : 0)) / totalVerses) * 100 : 0;
   const normalizedText = verseText.normalize("NFC");
@@ -47,13 +48,33 @@ export function TypingScreen({
         <div className="bs-typing-location">
           {bookName} {chapter}
         </div>
-        <div className="bs-typing-counter">
+        <button
+          type="button"
+          className="bs-typing-counter"
+          onClick={() => setShowVersePicker((v) => !v)}
+        >
           {verseIdx + 1}/{totalVerses}
-        </div>
+        </button>
       </div>
 
-      {/* Verse number label */}
-      <div className="bs-verse-label">Verse {verseNumber}</div>
+      {/* Verse picker grid */}
+      {showVersePicker && (
+        <div className="bs-verse-picker bs-fade-in">
+          {verseNumbers.map((num) => (
+            <button
+              key={num}
+              type="button"
+              className={`bs-chapter-btn ${num - 1 === verseIdx ? "bs-chapter-done" : ""}`}
+              onClick={() => {
+                onJumpVerse(num - 1);
+                setShowVersePicker(false);
+              }}
+            >
+              {num}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Typing area */}
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: tap area wraps hidden input */}

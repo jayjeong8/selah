@@ -57,7 +57,6 @@ export function BibleScribe() {
   const [seqState, setSeqState] = useState<SequentialState | null>(null);
   const [randomVerses, setRandomVerses] = useState<RandomVerseItem[]>([]);
   const [randomIdx, setRandomIdx] = useState(0);
-  const [showBookmarkBtn, setShowBookmarkBtn] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
   const [composingText, setComposingText] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -76,7 +75,6 @@ export function BibleScribe() {
     onCharError: () => sound.play("error"),
     onVerseDone: () => {
       sound.play("verse-done");
-      setShowBookmarkBtn(true);
     },
   });
 
@@ -101,7 +99,6 @@ export function BibleScribe() {
   useEffect(() => {
     if (phase === "typing" && currentVerse) {
       typing.start(currentVerse.text);
-      setShowBookmarkBtn(false);
       if (inputRef.current) {
         inputRef.current.value = "";
       }
@@ -422,14 +419,19 @@ export function BibleScribe() {
             <TypingScreen
               bookName={currentBookName}
               chapter={currentChapter}
-              verseNumber={currentVerse.number}
               verseIdx={currentVerseIdx}
               totalVerses={totalVerses}
               typingState={typing.state}
               verseText={currentVerse.text}
               composingText={composingText}
-              showBookmarkBtn={showBookmarkBtn}
               onBack={() => setPhase(mode === "sequential" ? "chapter-select" : "mode-select")}
+              onJumpVerse={(idx) => {
+                if (mode === "sequential") {
+                  setSeqState((prev) => (prev ? { ...prev, verseIdx: idx } : null));
+                } else {
+                  setRandomIdx(idx);
+                }
+              }}
               onTapArea={handleTapArea}
               onAddBookmark={handleAddBookmark}
               onContinue={handleNextVerse}
