@@ -11,6 +11,7 @@ interface Props {
   verseText: string;
   composingText: string;
   showBookmarkBtn: boolean;
+  onBack: () => void;
   onTapArea: () => void;
   onAddBookmark: () => void;
   onContinue: () => void;
@@ -26,6 +27,7 @@ export function TypingScreen({
   verseText,
   composingText,
   showBookmarkBtn,
+  onBack,
   onTapArea,
   onAddBookmark,
   onContinue,
@@ -37,6 +39,9 @@ export function TypingScreen({
 
   return (
     <div className="bs-slide-up">
+      <button type="button" className="bs-back-btn" onClick={onBack}>
+        &larr; Back
+      </button>
       {/* Header row */}
       <div className="bs-typing-header">
         <div className="bs-typing-location">

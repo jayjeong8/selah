@@ -396,6 +396,7 @@ export function BibleScribe() {
               verseText={currentVerse.text}
               composingText={composingText}
               showBookmarkBtn={showBookmarkBtn}
+              onBack={() => setPhase(mode === "sequential" ? "chapter-select" : "mode-select")}
               onTapArea={handleTapArea}
               onAddBookmark={handleAddBookmark}
               onContinue={handleNextVerse}
