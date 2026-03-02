@@ -1,0 +1,1107 @@
+/* ══════════════════════════════════════════════════════════
+   Bible Scribe — Medieval Scriptorium
+   Inspired by illuminated manuscripts & Benedictine scriptoriums
+   ══════════════════════════════════════════════════════════ */
+
+.bs-root {
+  --bs-bg: #ede6d6;
+  --bs-bg-deep: #e2d9c5;
+  --bs-surface: #f5f0e3;
+  --bs-ink: #2a1f14;
+  --bs-secondary: #7a6b56;
+  --bs-accent: #8b4513;
+  --bs-correct: #2a1f14;
+  --bs-error: #9b2c2c;
+  --bs-gold: #b8860b;
+  --bs-gold-light: #daa520;
+  --bs-rubric: #8b2500;
+  --bs-track: #d4c9b0;
+  --bs-border: #c4b799;
+  --bs-glow: rgba(184, 134, 11, 0.15);
+
+  font-family: var(--font-bs-serif), "Georgia", serif;
+  background: linear-gradient(175deg, #f0ead6 0%, #e8dfcc 40%, #e2d5be 100%);
+  color: var(--bs-ink);
+  min-height: 100dvh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Vellum texture — layered grain + fiber pattern */
+.bs-root::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='v'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23v)' opacity='0.06'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.02 0.08' numOctaves='2' seed='3'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23f)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Subtle vignette edges */
+.bs-root::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(42, 31, 20, 0.08) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bs-root > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Layout ── */
+
+.bs-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+/* ── Header — Scriptorium Title ── */
+
+.bs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--bs-border);
+  position: relative;
+}
+
+/* Ornamental cross under header */
+.bs-header::after {
+  content: "\2720";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bs-bg-deep);
+  padding: 0 12px;
+  font-size: 0.75rem;
+  color: var(--bs-gold);
+  letter-spacing: 0.2em;
+}
+
+.bs-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--bs-ink);
+  letter-spacing: 0.04em;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.bs-title-accent {
+  color: var(--bs-accent);
+  font-style: italic;
+}
+
+.bs-icon-btn {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 6px 8px;
+  cursor: pointer;
+  color: var(--bs-secondary);
+  transition:
+    color 0.3s,
+    border-color 0.3s;
+  display: flex;
+  align-items: center;
+}
+
+.bs-icon-btn:hover {
+  border-color: var(--bs-gold);
+  color: var(--bs-gold);
+}
+
+/* ── Card — Manuscript Page ── */
+
+.bs-card {
+  background: var(--bs-surface);
+  border: 1px solid var(--bs-border);
+  border-radius: 3px;
+  padding: 28px 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow:
+    0 1px 2px rgba(42, 31, 20, 0.06),
+    0 4px 16px rgba(42, 31, 20, 0.04),
+    inset 0 0 40px rgba(184, 134, 11, 0.03);
+}
+
+/* Manuscript border — inner decorative frame */
+.bs-card::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid var(--bs-track);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* Corner ornaments */
+.bs-card::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  background:
+    radial-gradient(circle at 0% 0%, var(--bs-gold) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 100% 0%, var(--bs-gold) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 0% 100%, var(--bs-gold) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 100% 100%, var(--bs-gold) 1.5px, transparent 1.5px);
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ── Translation Select ── */
+
+.bs-translation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.bs-lang-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bs-lang-group-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--bs-secondary);
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--bs-track);
+  font-weight: 600;
+}
+
+.bs-translation-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: var(--bs-bg);
+  border: 1px solid var(--bs-border);
+  border-radius: 3px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
+  text-align: left;
+}
+
+.bs-translation-btn:hover {
+  border-color: var(--bs-gold);
+  box-shadow:
+    0 0 0 1px var(--bs-gold),
+    0 2px 8px var(--bs-glow);
+}
+
+.bs-translation-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--bs-ink);
+}
+
+.bs-translation-meta {
+  font-size: 0.7rem;
+  color: var(--bs-secondary);
+  flex-shrink: 0;
+  font-style: italic;
+}
+
+/* ── Mode Select ── */
+
+.bs-mode-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.bs-mode-card {
+  background: var(--bs-bg);
+  border: 1px solid var(--bs-border);
+  border-radius: 3px;
+  padding: 24px 20px;
+  cursor: pointer;
+  text-align: center;
+  position: relative;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
+}
+
+/* Decorative top-border accent for mode cards */
+.bs-mode-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--bs-gold), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.bs-mode-card:hover {
+  border-color: var(--bs-gold);
+  box-shadow: 0 2px 12px var(--bs-glow);
+}
+
+.bs-mode-card:hover::before {
+  opacity: 1;
+}
+
+.bs-mode-icon {
+  margin-bottom: 10px;
+  color: var(--bs-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bs-mode-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--bs-ink);
+  letter-spacing: 0.03em;
+}
+
+.bs-mode-desc {
+  font-size: 0.8rem;
+  color: var(--bs-secondary);
+  margin-top: 4px;
+  font-style: italic;
+}
+
+.bs-mode-continue {
+  font-size: 0.72rem;
+  color: var(--bs-gold);
+  margin-top: 10px;
+  font-style: italic;
+}
+
+/* ── Book Select ── */
+
+.bs-book-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.bs-book-btn {
+  background: var(--bs-bg);
+  border: 1px solid var(--bs-border);
+  border-radius: 3px;
+  padding: 10px 12px;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
+}
+
+.bs-book-btn:hover {
+  border-color: var(--bs-gold);
+  box-shadow: 0 1px 6px var(--bs-glow);
+}
+
+.bs-book-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--bs-ink);
+}
+
+.bs-book-meta {
+  font-size: 0.65rem;
+  color: var(--bs-secondary);
+  margin-top: 2px;
+  font-style: italic;
+}
+
+.bs-book-progress {
+  color: var(--bs-gold);
+}
+
+.bs-section-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--bs-rubric);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+/* ── Chapter Select ── */
+
+.bs-chapter-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.bs-chapter-btn {
+  aspect-ratio: 1;
+  background: var(--bs-bg);
+  border: 1px solid var(--bs-border);
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--bs-ink);
+  transition:
+    border-color 0.3s,
+    background 0.3s,
+    box-shadow 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+}
+
+.bs-chapter-btn:hover {
+  border-color: var(--bs-gold);
+  box-shadow: 0 0 8px var(--bs-glow);
+}
+
+.bs-chapter-done {
+  background: var(--bs-accent);
+  color: var(--bs-surface);
+  border-color: var(--bs-accent);
+}
+
+.bs-chapter-done:hover {
+  background: #9a5524;
+}
+
+/* ══════════════════════════════════════════
+   Typing Screen — The Heart of the Scriptorium
+   ══════════════════════════════════════════ */
+
+.bs-typing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--bs-track);
+}
+
+.bs-typing-location {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--bs-ink);
+  letter-spacing: 0.02em;
+}
+
+.bs-typing-counter {
+  font-size: 0.75rem;
+  color: var(--bs-secondary);
+  font-style: italic;
+}
+
+/* Verse label — illuminated initial style */
+.bs-verse-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--bs-gold);
+  margin-bottom: 16px;
+  font-weight: 700;
+  position: relative;
+  padding-left: 12px;
+}
+
+/* Gold bar accent beside verse label */
+.bs-verse-label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--bs-gold), var(--bs-gold-light));
+  border-radius: 2px;
+}
+
+/* Verse display — manuscript writing area with ruled lines */
+.bs-verse-display {
+  font-size: 1.35rem;
+  line-height: 2;
+  letter-spacing: 0.015em;
+  min-height: 80px;
+  position: relative;
+  word-break: break-word;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent calc(2.7rem - 1px),
+    var(--bs-track) calc(2.7rem - 1px),
+    var(--bs-track) 2.7rem
+  );
+  background-position: 0 0;
+}
+
+.bs-char {
+  display: inline;
+  transition: color 0.2s ease;
+}
+
+.bs-char[data-state="pending"] {
+  color: var(--bs-track);
+}
+
+.bs-char[data-state="correct"] {
+  color: var(--bs-correct);
+}
+
+.bs-char[data-state="error"] {
+  color: var(--bs-error);
+  text-decoration: underline wavy;
+  text-decoration-color: var(--bs-error);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+
+/* Cursor — quill nib with golden glow */
+.bs-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.3em;
+  background: var(--bs-gold);
+  vertical-align: text-bottom;
+  margin-left: -1px;
+  margin-right: -1px;
+  animation: bs-quill-pulse 1.2s ease-in-out infinite;
+  box-shadow: 0 0 4px var(--bs-glow);
+}
+
+/* IME composing text */
+.bs-composing {
+  color: var(--bs-gold);
+  text-decoration: underline dotted;
+  text-decoration-color: var(--bs-gold);
+  text-underline-offset: 4px;
+}
+
+@keyframes bs-quill-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 4px var(--bs-glow);
+  }
+  50% {
+    opacity: 0.2;
+    box-shadow: 0 0 0 transparent;
+  }
+}
+
+.bs-tap-area {
+  cursor: text;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.bs-tap-hint {
+  font-size: 0.8rem;
+  color: var(--bs-secondary);
+  text-align: center;
+  margin-top: 16px;
+  font-style: italic;
+  letter-spacing: 0.03em;
+}
+
+.bs-hidden-input {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ── Verse Actions (bookmark + continue) ── */
+
+.bs-verse-actions {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0 8px;
+}
+
+.bs-bookmark-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid var(--bs-gold);
+  border-radius: 3px;
+  padding: 10px 14px;
+  font-family: var(--font-bs-serif), serif;
+  font-size: 0.85rem;
+  color: var(--bs-gold);
+  cursor: pointer;
+  transition:
+    background 0.3s,
+    color 0.3s,
+    box-shadow 0.3s;
+}
+
+.bs-bookmark-btn:hover {
+  background: var(--bs-gold);
+  color: var(--bs-surface);
+  box-shadow: 0 2px 8px var(--bs-glow);
+}
+
+.bs-continue-btn {
+  flex: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--bs-accent);
+  color: var(--bs-surface);
+  border: none;
+  border-radius: 3px;
+  padding: 10px 16px;
+  font-family: var(--font-bs-serif), serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition:
+    background 0.3s,
+    transform 0.15s,
+    box-shadow 0.3s;
+}
+
+.bs-continue-btn:hover {
+  background: #9a5524;
+  box-shadow: 0 2px 10px rgba(139, 69, 19, 0.25);
+}
+
+.bs-continue-btn:active {
+  transform: scale(0.97);
+}
+
+/* ── Progress Bar — Ink Line ── */
+
+.bs-progress-bar {
+  width: 100%;
+  height: 2px;
+  background: var(--bs-track);
+  border-radius: 1px;
+  margin-top: auto;
+  padding-top: 20px;
+  overflow: hidden;
+}
+
+.bs-progress-fill {
+  height: 2px;
+  background: linear-gradient(90deg, var(--bs-accent), var(--bs-gold));
+  border-radius: 1px;
+  transition: width 0.4s ease;
+}
+
+/* ── Bookmarks View ── */
+
+.bs-bookmark-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bs-bookmark-item {
+  background: var(--bs-bg);
+  border: 1px solid var(--bs-border);
+  border-radius: 3px;
+  padding: 14px;
+  border-left: 3px solid var(--bs-gold);
+}
+
+.bs-bookmark-ref {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--bs-rubric);
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+
+.bs-bookmark-text {
+  font-size: 0.88rem;
+  color: var(--bs-ink);
+  line-height: 1.7;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-style: italic;
+}
+
+.bs-bookmark-delete {
+  background: none;
+  border: none;
+  color: var(--bs-secondary);
+  font-size: 0.65rem;
+  cursor: pointer;
+  margin-top: 8px;
+  padding: 0;
+  transition: color 0.2s;
+  font-style: italic;
+}
+
+.bs-bookmark-delete:hover {
+  color: var(--bs-error);
+}
+
+/* ── Buttons ── */
+
+.bs-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 3px;
+  font-family: var(--font-bs-serif), serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition:
+    background 0.3s,
+    transform 0.15s,
+    box-shadow 0.3s;
+  border: none;
+}
+
+.bs-btn:active {
+  transform: scale(0.97);
+}
+
+.bs-btn-primary {
+  background: var(--bs-accent);
+  color: var(--bs-surface);
+}
+
+.bs-btn-primary:hover {
+  background: #9a5524;
+  box-shadow: 0 2px 10px rgba(139, 69, 19, 0.25);
+}
+
+.bs-btn-full {
+  width: 100%;
+}
+
+.bs-back-btn {
+  background: none;
+  border: none;
+  color: var(--bs-secondary);
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color 0.3s;
+  font-style: italic;
+}
+
+.bs-back-btn:hover {
+  color: var(--bs-ink);
+}
+
+/* ── Footer ── */
+
+.bs-footer {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--bs-border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  position: relative;
+}
+
+/* Ornamental dots on footer rule */
+.bs-footer::before {
+  content: "\00B7  \00B7  \00B7";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bs-bg-deep);
+  padding: 0 10px;
+  font-size: 0.6rem;
+  color: var(--bs-secondary);
+  letter-spacing: 0.3em;
+}
+
+.bs-footer-link {
+  font-size: 0.72rem;
+  color: var(--bs-secondary);
+  text-decoration: none;
+  transition: color 0.3s;
+  font-style: italic;
+}
+
+.bs-footer-link:hover {
+  color: var(--bs-gold);
+}
+
+/* ── Animations ── */
+
+@keyframes bs-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bs-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bs-fade-in {
+  animation: bs-fade-in 0.5s ease-out;
+}
+
+.bs-slide-up {
+  animation: bs-slide-up 0.5s ease-out;
+}
+
+/* ── Streak Display ── */
+
+.bs-streak-display {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: var(--bs-bg);
+  border: 1px solid var(--bs-border);
+  border-radius: 3px;
+  position: relative;
+}
+
+/* Decorative top accent on streak */
+.bs-streak-display::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--bs-gold), transparent);
+}
+
+.bs-streak-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.bs-streak-count {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bs-streak-fire {
+  color: var(--bs-gold);
+}
+
+.bs-streak-number {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--bs-ink);
+  line-height: 1;
+}
+
+.bs-streak-unit {
+  font-size: 0.72rem;
+  color: var(--bs-secondary);
+  font-style: italic;
+}
+
+.bs-streak-best {
+  font-size: 0.7rem;
+  color: var(--bs-secondary);
+  font-style: italic;
+}
+
+.bs-grace-active {
+  font-size: 0.8rem;
+  color: var(--bs-gold);
+  text-align: center;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+.bs-streak-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.bs-streak-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 0;
+}
+
+.bs-streak-day-label {
+  font-size: 0.55rem;
+  color: var(--bs-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.bs-streak-day-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--bs-track);
+  transition: background 0.3s;
+}
+
+.bs-streak-day[data-active="true"] .bs-streak-day-dot {
+  background: var(--bs-accent);
+}
+
+.bs-streak-day[data-today="true"] .bs-streak-day-dot {
+  box-shadow:
+    0 0 0 2px var(--bs-surface),
+    0 0 0 3px var(--bs-gold);
+}
+
+.bs-grace-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  margin-top: 12px;
+  padding: 8px;
+  background: none;
+  border: 1px dashed var(--bs-gold);
+  border-radius: 3px;
+  font-family: var(--font-bs-serif), serif;
+  font-size: 0.8rem;
+  color: var(--bs-gold);
+  cursor: pointer;
+  transition:
+    background 0.3s,
+    color 0.3s;
+}
+
+.bs-grace-btn:hover {
+  background: var(--bs-gold);
+  color: var(--bs-surface);
+}
+
+.bs-grace-used {
+  font-size: 0.7rem;
+  color: var(--bs-secondary);
+  text-align: center;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* ══════════════════════════════════════════
+   Dark Mode — Night Chapel
+   Candlelight warmth against deep mahogany
+   ══════════════════════════════════════════ */
+
+.bs-root[data-theme="dark"] {
+  --bs-bg: #161210;
+  --bs-bg-deep: #121010;
+  --bs-surface: #1e1a16;
+  --bs-ink: #e4d8c8;
+  --bs-secondary: #9a8b78;
+  --bs-accent: #c4956a;
+  --bs-correct: #e4d8c8;
+  --bs-error: #e05555;
+  --bs-gold: #d4a843;
+  --bs-gold-light: #e0b94e;
+  --bs-rubric: #d4846a;
+  --bs-track: #332c24;
+  --bs-border: #3e352a;
+  --bs-glow: rgba(212, 168, 67, 0.12);
+  background: linear-gradient(175deg, #1a1614 0%, #161210 40%, #121010 100%);
+}
+
+.bs-root[data-theme="dark"]::before {
+  opacity: 0.03;
+}
+
+.bs-root[data-theme="dark"]::after {
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.2) 100%);
+}
+
+.bs-root[data-theme="dark"] .bs-btn-primary {
+  background: var(--bs-accent);
+  color: var(--bs-bg);
+}
+
+.bs-root[data-theme="dark"] .bs-btn-primary:hover {
+  background: #d4a67a;
+  box-shadow: 0 2px 10px rgba(196, 149, 106, 0.2);
+}
+
+.bs-root[data-theme="dark"] .bs-chapter-done {
+  background: var(--bs-accent);
+  color: var(--bs-bg);
+  border-color: var(--bs-accent);
+}
+
+.bs-root[data-theme="dark"] .bs-continue-btn {
+  background: var(--bs-accent);
+  color: var(--bs-bg);
+}
+
+.bs-root[data-theme="dark"] .bs-continue-btn:hover {
+  background: #d4a67a;
+}
+
+.bs-root[data-theme="dark"] .bs-card {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.15),
+    0 4px 16px rgba(0, 0, 0, 0.1),
+    inset 0 0 40px rgba(212, 168, 67, 0.02);
+}
+
+@media (prefers-color-scheme: dark) {
+  .bs-root[data-theme="auto"] {
+    --bs-bg: #161210;
+    --bs-bg-deep: #121010;
+    --bs-surface: #1e1a16;
+    --bs-ink: #e4d8c8;
+    --bs-secondary: #9a8b78;
+    --bs-accent: #c4956a;
+    --bs-correct: #e4d8c8;
+    --bs-error: #e05555;
+    --bs-gold: #d4a843;
+    --bs-gold-light: #e0b94e;
+    --bs-rubric: #d4846a;
+    --bs-track: #332c24;
+    --bs-border: #3e352a;
+    --bs-glow: rgba(212, 168, 67, 0.12);
+    background: linear-gradient(175deg, #1a1614 0%, #161210 40%, #121010 100%);
+  }
+
+  .bs-root[data-theme="auto"]::before {
+    opacity: 0.03;
+  }
+
+  .bs-root[data-theme="auto"]::after {
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.2) 100%);
+  }
+
+  .bs-root[data-theme="auto"] .bs-btn-primary {
+    background: var(--bs-accent);
+    color: var(--bs-bg);
+  }
+
+  .bs-root[data-theme="auto"] .bs-btn-primary:hover {
+    background: #d4a67a;
+    box-shadow: 0 2px 10px rgba(196, 149, 106, 0.2);
+  }
+
+  .bs-root[data-theme="auto"] .bs-chapter-done {
+    background: var(--bs-accent);
+    color: var(--bs-bg);
+    border-color: var(--bs-accent);
+  }
+
+  .bs-root[data-theme="auto"] .bs-continue-btn {
+    background: var(--bs-accent);
+    color: var(--bs-bg);
+  }
+
+  .bs-root[data-theme="auto"] .bs-continue-btn:hover {
+    background: #d4a67a;
+  }
+
+  .bs-root[data-theme="auto"] .bs-card {
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.15),
+      0 4px 16px rgba(0, 0, 0, 0.1),
+      inset 0 0 40px rgba(212, 168, 67, 0.02);
+  }
+}
+
+/* ── Dark Mode Toggle ── */
+
+.bs-theme-toggle {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 6px 8px;
+  cursor: pointer;
+  color: var(--bs-secondary);
+  transition:
+    border-color 0.3s,
+    color 0.3s;
+  display: flex;
+  align-items: center;
+}
+
+.bs-theme-toggle:hover {
+  border-color: var(--bs-gold);
+  color: var(--bs-gold);
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 768px) {
+  .bs-translation-meta,
+  .bs-book-meta,
+  .bs-back-btn,
+  .bs-typing-counter {
+    font-size: 0.84rem;
+  }
+
+  .bs-section-label,
+  .bs-lang-group-label,
+  .bs-footer-link,
+  .bs-bookmark-delete {
+    font-size: 0.82rem;
+  }
+}
