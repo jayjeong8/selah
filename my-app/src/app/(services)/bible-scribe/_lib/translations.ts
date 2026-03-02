@@ -56,6 +56,67 @@ export const TRANSLATIONS: TranslationMeta[] = [
     bookCount: 66,
     source: "helloao",
   },
+  // English - YouVersion
+  {
+    id: "yv:111",
+    name: "New International Version",
+    shortName: "NIV",
+    language: "en",
+    languageName: "English",
+    flag: "🇺🇸",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "New International Version (NIV)\nCopyright © 1973, 1978, 1984, 2011 by Biblica, Inc.®\nUsed by permission. All rights reserved worldwide.",
+  },
+  {
+    id: "yv:59",
+    name: "English Standard Version 2016",
+    shortName: "ESV",
+    language: "en",
+    languageName: "English",
+    flag: "🇺🇸",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "The Holy Bible, English Standard Version® (ESV®)\nCopyright © 2001 by Crossway, a publishing ministry of Good News Publishers.\nUsed by permission. All rights reserved.",
+  },
+  {
+    id: "yv:116",
+    name: "New Living Translation",
+    shortName: "NLT",
+    language: "en",
+    languageName: "English",
+    flag: "🇺🇸",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "Holy Bible, New Living Translation\nCopyright © 1996, 2004, 2015 by Tyndale House Foundation.\nUsed by permission. All rights reserved.",
+  },
+  {
+    id: "yv:114",
+    name: "New King James Version",
+    shortName: "NKJV",
+    language: "en",
+    languageName: "English",
+    flag: "🇺🇸",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "New King James Version®\nCopyright © 1982 by Thomas Nelson, Inc.\nUsed by permission. All rights reserved.",
+  },
+  {
+    id: "yv:2692",
+    name: "New American Standard Bible 2020",
+    shortName: "NASB",
+    language: "en",
+    languageName: "English",
+    flag: "🇺🇸",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "New American Standard Bible® (NASB)\nCopyright © 1960, 1971, 1977, 1995, 2020 by The Lockman Foundation.\nAll rights reserved.",
+  },
   // Spanish - helloao
   {
     id: "spa_rvg",
