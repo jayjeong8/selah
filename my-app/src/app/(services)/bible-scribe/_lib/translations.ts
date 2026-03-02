@@ -1,18 +1,7 @@
 import type { BibleLanguage, TranslationMeta } from "./types";
 
 export const TRANSLATIONS: TranslationMeta[] = [
-  // Korean - helloao
-  {
-    id: "kor_old",
-    name: "개역한글판 (1910)",
-    shortName: "개역한글",
-    language: "ko",
-    languageName: "한국어",
-    flag: "🇰🇷",
-    bookCount: 66,
-    source: "helloao",
-  },
-  // Korean - YouVersion
+  // Korean
   {
     id: "yv:86",
     name: "현대인의 성경",
@@ -25,7 +14,29 @@ export const TRANSLATIONS: TranslationMeta[] = [
     copyright:
       "Korean Living Bible (현대인의 성경)\nCopyright © 1985 by Biblica, Inc.®\nUsed by permission. All rights reserved worldwide.",
   },
-  // English - helloao
+  {
+    id: "kor_old",
+    name: "개역한글판 (1910)",
+    shortName: "개역한글",
+    language: "ko",
+    languageName: "한국어",
+    flag: "🇰🇷",
+    bookCount: 66,
+    source: "helloao",
+  },
+  // English
+  {
+    id: "yv:2692",
+    name: "New American Standard Bible 2020",
+    shortName: "NASB",
+    language: "en",
+    languageName: "English",
+    flag: "🇺🇸",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "New American Standard Bible® (NASB)\nCopyright © 1960, 1971, 1977, 1995, 2020 by The Lockman Foundation.\nAll rights reserved.",
+  },
   {
     id: "BSB",
     name: "Berean Standard Bible",
@@ -35,39 +46,6 @@ export const TRANSLATIONS: TranslationMeta[] = [
     flag: "🇺🇸",
     bookCount: 66,
     source: "helloao",
-  },
-  {
-    id: "eng_kjv",
-    name: "King James Version",
-    shortName: "KJV",
-    language: "en",
-    languageName: "English",
-    flag: "🇺🇸",
-    bookCount: 66,
-    source: "helloao",
-  },
-  {
-    id: "eng_web",
-    name: "World English Bible",
-    shortName: "WEB",
-    language: "en",
-    languageName: "English",
-    flag: "🇺🇸",
-    bookCount: 66,
-    source: "helloao",
-  },
-  // English - YouVersion
-  {
-    id: "yv:111",
-    name: "New International Version",
-    shortName: "NIV",
-    language: "en",
-    languageName: "English",
-    flag: "🇺🇸",
-    bookCount: 66,
-    source: "youversion",
-    copyright:
-      "New International Version (NIV)\nCopyright © 1973, 1978, 1984, 2011 by Biblica, Inc.®\nUsed by permission. All rights reserved worldwide.",
   },
   {
     id: "yv:59",
@@ -94,6 +72,28 @@ export const TRANSLATIONS: TranslationMeta[] = [
       "Holy Bible, New Living Translation\nCopyright © 1996, 2004, 2015 by Tyndale House Foundation.\nUsed by permission. All rights reserved.",
   },
   {
+    id: "yv:111",
+    name: "New International Version",
+    shortName: "NIV",
+    language: "en",
+    languageName: "English",
+    flag: "🇺🇸",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "New International Version (NIV)\nCopyright © 1973, 1978, 1984, 2011 by Biblica, Inc.®\nUsed by permission. All rights reserved worldwide.",
+  },
+  {
+    id: "eng_web",
+    name: "World English Bible",
+    shortName: "WEB",
+    language: "en",
+    languageName: "English",
+    flag: "🇺🇸",
+    bookCount: 66,
+    source: "helloao",
+  },
+  {
     id: "yv:114",
     name: "New King James Version",
     shortName: "NKJV",
@@ -106,18 +106,16 @@ export const TRANSLATIONS: TranslationMeta[] = [
       "New King James Version®\nCopyright © 1982 by Thomas Nelson, Inc.\nUsed by permission. All rights reserved.",
   },
   {
-    id: "yv:2692",
-    name: "New American Standard Bible 2020",
-    shortName: "NASB",
+    id: "eng_kjv",
+    name: "King James Version",
+    shortName: "KJV",
     language: "en",
     languageName: "English",
     flag: "🇺🇸",
     bookCount: 66,
-    source: "youversion",
-    copyright:
-      "New American Standard Bible® (NASB)\nCopyright © 1960, 1971, 1977, 1995, 2020 by The Lockman Foundation.\nAll rights reserved.",
+    source: "helloao",
   },
-  // Spanish - helloao
+  // Spanish
   {
     id: "spa_rvg",
     name: "Reina Valera Gómez",
@@ -138,7 +136,7 @@ export const TRANSLATIONS: TranslationMeta[] = [
     bookCount: 66,
     source: "helloao",
   },
-  // French - helloao
+  // French
   {
     id: "fra_lsg",
     name: "Louis Segond 1910",
@@ -149,7 +147,7 @@ export const TRANSLATIONS: TranslationMeta[] = [
     bookCount: 66,
     source: "helloao",
   },
-  // German - helloao
+  // German
   {
     id: "deu_l12",
     name: "Luther 1912",
@@ -160,7 +158,7 @@ export const TRANSLATIONS: TranslationMeta[] = [
     bookCount: 66,
     source: "helloao",
   },
-  // Chinese - helloao
+  // Chinese
   {
     id: "cmn_cu1",
     name: "简体中文和合本",
@@ -181,28 +179,7 @@ export const TRANSLATIONS: TranslationMeta[] = [
     bookCount: 66,
     source: "helloao",
   },
-  // Japanese - helloao (NT only)
-  {
-    id: "jpn_loc",
-    name: "日本語新約聖書",
-    shortName: "日本語",
-    language: "ja",
-    languageName: "日本語",
-    flag: "🇯🇵",
-    bookCount: 27,
-    source: "helloao",
-  },
-  // Japanese - YouVersion (full Bible)
-  {
-    id: "yv:81",
-    name: "口語訳 (1955)",
-    shortName: "JA1955",
-    language: "ja",
-    languageName: "日本語",
-    flag: "🇯🇵",
-    bookCount: 66,
-    source: "youversion",
-  },
+  // Japanese
   {
     id: "yv:83",
     name: "リビングバイブル",
@@ -214,6 +191,26 @@ export const TRANSLATIONS: TranslationMeta[] = [
     source: "youversion",
     copyright:
       "Japanese Contemporary Bible (リビングバイブル)\nCopyright © 1978, 2011, 2016 by Biblica, Inc.®\nUsed by permission. All rights reserved worldwide.",
+  },
+  {
+    id: "yv:81",
+    name: "口語訳 (1955)",
+    shortName: "JA1955",
+    language: "ja",
+    languageName: "日本語",
+    flag: "🇯🇵",
+    bookCount: 66,
+    source: "youversion",
+  },
+  {
+    id: "jpn_loc",
+    name: "日本語新約聖書",
+    shortName: "日本語",
+    language: "ja",
+    languageName: "日本語",
+    flag: "🇯🇵",
+    bookCount: 27,
+    source: "helloao",
   },
 ];
 
