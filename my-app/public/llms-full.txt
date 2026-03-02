@@ -1,0 +1,51 @@
+# selah — Full Documentation
+
+> Pause. Reflect. Grow. — A collection of faith-based web services for biblical engagement, inspired by the medieval scriptorium tradition.
+
+Website: https://selah-alpha.vercel.app
+
+## Services
+
+### Bible Scribe
+
+URL: https://selah-alpha.vercel.app/bible-scribe
+
+Bible Scribe is a meditative scripture transcription tool where users type the Word one verse at a time. It supports 32 Bible translations across 7 languages.
+
+#### Supported Languages
+
+- English
+- Korean (한국어)
+- Spanish (Español)
+- French (Français)
+- German (Deutsch)
+- Chinese (中文)
+- Japanese (日本語)
+
+#### Features
+
+1. **Sequential Mode**: Transcribe chapter by chapter, progressing through books of the Bible in order.
+2. **Random Mode**: Receive curated scripture passages for reflection and transcription.
+3. **Bookmarks**: Save your place and return to specific verses later.
+4. **Progress Tracking**: Track which verses and chapters you have completed.
+5. **Meditative Typing Sounds**: Optional ambient key sounds for a contemplative experience.
+6. **Offline Support**: All data cached locally via IndexedDB; works without internet.
+7. **Dark Mode**: Toggle between light and dark themes.
+8. **Data Export/Import**: Export your progress and bookmarks; import them on another device.
+
+#### Data Sources
+
+- YouVersion API
+- helloao.org
+
+#### Technical Details
+
+- Built with Next.js and React
+- Progressive Web App capabilities
+- Client-side data storage (IndexedDB)
+- No account required — all data stays on your device
+- Completely free to use
+
+## About
+
+selah is a faith-based project focused on creating tools that help people engage more deeply with Scripture. The name "selah" comes from the Psalms, meaning to pause and reflect.
