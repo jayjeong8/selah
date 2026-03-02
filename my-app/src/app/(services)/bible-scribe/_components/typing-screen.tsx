@@ -82,8 +82,13 @@ export function TypingScreen({
             ))}
         </div>
 
-        {!typingState.done && typingState.cursor === 0 && (
-          <div className="bs-tap-hint">Tap here and start typing</div>
+        {!typingState.done && (
+          <div
+            className="bs-tap-hint"
+            style={{ visibility: typingState.cursor === 0 ? "visible" : "hidden" }}
+          >
+            Tap here and start typing
+          </div>
         )}
       </div>
 
