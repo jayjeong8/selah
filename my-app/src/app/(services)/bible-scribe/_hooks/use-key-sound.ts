@@ -2,6 +2,7 @@
 
 import { useCallback, useRef } from "react";
 import { applyADSR } from "../../_shared-audio/adsr";
+import { playMicroBell } from "../../_shared-audio/bell";
 import { createMasterBus } from "../../_shared-audio/master-bus";
 import { createReverbIR } from "../../_shared-audio/reverb";
 
@@ -136,61 +137,46 @@ export function useKeySound() {
   return { play, setEnabled, init };
 }
 
+/** D major pentatonic pitch pool — random selection reduces typing fatigue */
+const CORRECT_PITCH_POOL = [
+  493, // B4
+  554, // C#5
+  587, // D5
+  740, // F#5
+  880, // A5
+];
+
 /**
- * Correct keystroke — quill-on-parchment chime
- * Warm bell tone with subtle inharmonic partials + faint quill scratch.
+ * Correct keystroke — sanctus bell (제대 종) across the scriptorium
+ * Micro-bell with 4 Rayleigh partials + quill scratch on parchment.
  */
 function playCorrect(ctx: AudioContext, dest: AudioNode, now: number, jitter: number) {
-  const baseFreq = 493 * jitter; // B4, warm and clear
+  // Random pitch from D major pentatonic pool
+  const baseFreq =
+    CORRECT_PITCH_POOL[Math.floor(Math.random() * CORRECT_PITCH_POOL.length)] * jitter;
 
-  // Fundamental — soft sine bell
-  const osc1 = ctx.createOscillator();
-  osc1.type = "sine";
-  osc1.frequency.value = baseFreq;
-  const g1 = ctx.createGain();
-  applyADSR(g1, now, {
-    attack: 0.004,
-    decay: 0.1,
-    sustain: 0.1,
-    release: 0.2,
-    peak: 0.11,
+  // Micro-bell: 4 partials, minimal strike, ~180ms
+  playMicroBell(ctx, dest, now, {
+    fundamental: baseFreq,
+    amplitude: 0.11,
+    duration: 0.18,
   });
-  osc1.connect(g1);
-  g1.connect(dest);
-  osc1.start(now);
-  osc1.stop(now + 0.35);
 
-  // Minor third partial (~1.183x) — bell shimmer
-  const osc2 = ctx.createOscillator();
-  osc2.type = "sine";
-  osc2.frequency.value = baseFreq * 1.183;
-  const g2 = ctx.createGain();
-  applyADSR(g2, now, {
-    attack: 0.004,
-    decay: 0.07,
-    sustain: 0.06,
-    release: 0.15,
-    peak: 0.035,
-  });
-  osc2.connect(g2);
-  g2.connect(dest);
-  osc2.start(now);
-  osc2.stop(now + 0.28);
-
-  // Quill scratch — very faint bandpassed noise
+  // Quill scratch — bandpassed noise, 40ms, delayed 3ms after bell onset
+  const scratchStart = now + 0.003;
   const noise = ctx.createBufferSource();
   noise.buffer = getNoiseBuffer(ctx);
   const bp = ctx.createBiquadFilter();
   bp.type = "bandpass";
   bp.frequency.value = 3500;
-  bp.Q.value = 2.0;
+  bp.Q.value = 1.2;
   const gn = ctx.createGain();
-  gn.gain.setValueAtTime(0.025, now);
-  gn.gain.exponentialRampToValueAtTime(0.001, now + 0.015);
+  gn.gain.setValueAtTime(0.025, scratchStart);
+  gn.gain.exponentialRampToValueAtTime(0.001, scratchStart + 0.04);
   noise.connect(bp);
   bp.connect(gn);
   gn.connect(dest);
-  noise.start(now);
+  noise.start(scratchStart);
 }
 
 /**
