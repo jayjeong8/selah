@@ -1,25 +1,40 @@
 import type { BibleLanguage, TranslationMeta } from "./types";
 
 export const TRANSLATIONS: TranslationMeta[] = [
-  // Korean
+  // Korean - helloao
   {
     id: "kor_old",
     name: "개역한글판 (1910)",
     shortName: "개역한글",
     language: "ko",
     languageName: "한국어",
-    flag: "\uD83C\uDDF0\uD83C\uDDF7",
+    flag: "🇰🇷",
     bookCount: 66,
+    source: "helloao",
   },
-  // English
+  // Korean - YouVersion
+  {
+    id: "yv:86",
+    name: "현대인의 성경",
+    shortName: "KLB",
+    language: "ko",
+    languageName: "한국어",
+    flag: "🇰🇷",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "Korean Living Bible (현대인의 성경)\nCopyright © 1985 by Biblica, Inc.®\nUsed by permission. All rights reserved worldwide.",
+  },
+  // English - helloao
   {
     id: "BSB",
     name: "Berean Standard Bible",
     shortName: "BSB",
     language: "en",
     languageName: "English",
-    flag: "\uD83C\uDDFA\uD83C\uDDF8",
+    flag: "🇺🇸",
     bookCount: 66,
+    source: "helloao",
   },
   {
     id: "eng_kjv",
@@ -27,8 +42,9 @@ export const TRANSLATIONS: TranslationMeta[] = [
     shortName: "KJV",
     language: "en",
     languageName: "English",
-    flag: "\uD83C\uDDFA\uD83C\uDDF8",
+    flag: "🇺🇸",
     bookCount: 66,
+    source: "helloao",
   },
   {
     id: "eng_web",
@@ -36,87 +52,118 @@ export const TRANSLATIONS: TranslationMeta[] = [
     shortName: "WEB",
     language: "en",
     languageName: "English",
-    flag: "\uD83C\uDDFA\uD83C\uDDF8",
+    flag: "🇺🇸",
     bookCount: 66,
+    source: "helloao",
   },
-  // Spanish
+  // Spanish - helloao
   {
     id: "spa_rvg",
-    name: "Reina Valera G\u00F3mez",
+    name: "Reina Valera Gómez",
     shortName: "RVG",
     language: "es",
-    languageName: "Espa\u00F1ol",
-    flag: "\uD83C\uDDEA\uD83C\uDDF8",
+    languageName: "Español",
+    flag: "🇪🇸",
     bookCount: 66,
+    source: "helloao",
   },
   {
     id: "spa_r09",
     name: "Reina Valera 1909",
     shortName: "RV1909",
     language: "es",
-    languageName: "Espa\u00F1ol",
-    flag: "\uD83C\uDDEA\uD83C\uDDF8",
+    languageName: "Español",
+    flag: "🇪🇸",
     bookCount: 66,
+    source: "helloao",
   },
-  // French
+  // French - helloao
   {
     id: "fra_lsg",
     name: "Louis Segond 1910",
     shortName: "LSG",
     language: "fr",
-    languageName: "Fran\u00E7ais",
-    flag: "\uD83C\uDDEB\uD83C\uDDF7",
+    languageName: "Français",
+    flag: "🇫🇷",
     bookCount: 66,
+    source: "helloao",
   },
-  // German
+  // German - helloao
   {
     id: "deu_l12",
     name: "Luther 1912",
     shortName: "Luther",
     language: "de",
     languageName: "Deutsch",
-    flag: "\uD83C\uDDE9\uD83C\uDDEA",
+    flag: "🇩🇪",
     bookCount: 66,
+    source: "helloao",
   },
-  // Chinese
+  // Chinese - helloao
   {
     id: "cmn_cu1",
-    name: "\u7B80\u4F53\u4E2D\u6587\u548C\u5408\u672C",
-    shortName: "\u7B80\u4F53",
+    name: "简体中文和合本",
+    shortName: "简体",
     language: "zh",
-    languageName: "\u4E2D\u6587",
-    flag: "\uD83C\uDDE8\uD83C\uDDF3",
+    languageName: "中文",
+    flag: "🇨🇳",
     bookCount: 66,
+    source: "helloao",
   },
   {
     id: "cmn_cuv",
-    name: "\u7E41\u9AD4\u4E2D\u6587\u548C\u5408\u672C",
-    shortName: "\u7E41\u9AD4",
+    name: "繁體中文和合本",
+    shortName: "繁體",
     language: "zh",
-    languageName: "\u4E2D\u6587",
-    flag: "\uD83C\uDDF9\uD83C\uDDFC",
+    languageName: "中文",
+    flag: "🇹🇼",
     bookCount: 66,
+    source: "helloao",
   },
-  // Japanese
+  // Japanese - helloao (NT only)
   {
     id: "jpn_loc",
-    name: "\u65E5\u672C\u8A9E\u65B0\u7D04\u8056\u66F8",
-    shortName: "\u65E5\u672C\u8A9E",
+    name: "日本語新約聖書",
+    shortName: "日本語",
     language: "ja",
-    languageName: "\u65E5\u672C\u8A9E",
-    flag: "\uD83C\uDDEF\uD83C\uDDF5",
+    languageName: "日本語",
+    flag: "🇯🇵",
     bookCount: 27,
+    source: "helloao",
+  },
+  // Japanese - YouVersion (full Bible)
+  {
+    id: "yv:81",
+    name: "口語訳 (1955)",
+    shortName: "JA1955",
+    language: "ja",
+    languageName: "日本語",
+    flag: "🇯🇵",
+    bookCount: 66,
+    source: "youversion",
+  },
+  {
+    id: "yv:83",
+    name: "リビングバイブル",
+    shortName: "JCB",
+    language: "ja",
+    languageName: "日本語",
+    flag: "🇯🇵",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "Japanese Contemporary Bible (リビングバイブル)\nCopyright © 1978, 2011, 2016 by Biblica, Inc.®\nUsed by permission. All rights reserved worldwide.",
   },
 ];
 
 export const LANGUAGE_GROUPS: { language: BibleLanguage; label: string; flag: string }[] = [
-  { language: "ko", label: "\uD55C\uAD6D\uC5B4", flag: "\uD83C\uDDF0\uD83C\uDDF7" },
-  { language: "en", label: "English", flag: "\uD83C\uDDFA\uD83C\uDDF8" },
-  { language: "es", label: "Espa\u00F1ol", flag: "\uD83C\uDDEA\uD83C\uDDF8" },
-  { language: "fr", label: "Fran\u00E7ais", flag: "\uD83C\uDDEB\uD83C\uDDF7" },
-  { language: "de", label: "Deutsch", flag: "\uD83C\uDDE9\uD83C\uDDEA" },
-  { language: "zh", label: "\u4E2D\u6587", flag: "\uD83C\uDDE8\uD83C\uDDF3" },
-  { language: "ja", label: "\u65E5\u672C\u8A9E", flag: "\uD83C\uDDEF\uD83C\uDDF5" },
+  { language: "ko", label: "한국어", flag: "🇰🇷" },
+  { language: "en", label: "English", flag: "🇺🇸" },
+  { language: "es", label: "Español", flag: "🇪🇸" },
+  { language: "fr", label: "Français", flag: "🇫🇷" },
+  { language: "de", label: "Deutsch", flag: "🇩🇪" },
+  { language: "zh", label: "中文", flag: "🇨🇳" },
+  { language: "ja", label: "日本語", flag: "🇯🇵" },
 ];
 
 export function getTranslationsByLanguage(language: BibleLanguage): TranslationMeta[] {
