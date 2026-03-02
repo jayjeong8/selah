@@ -354,9 +354,6 @@ export function BibleScribe() {
               lastBookCode={db.settings?.lastBookCode}
               lastChapter={db.settings?.lastChapter}
               books={books}
-              streak={db.streak}
-              graceDayState={db.settings?.graceDayState}
-              onUseGraceDay={db.applyGraceDay}
             />
           )}
 
