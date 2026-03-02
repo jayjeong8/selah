@@ -10,6 +10,7 @@ interface Props {
   typingState: TypingState;
   verseText: string;
   composingText: string;
+  copyright?: string;
   onBack: () => void;
   onJumpVerse: (verseIdx: number) => void;
   onTapArea: () => void;
@@ -25,6 +26,7 @@ export function TypingScreen({
   typingState,
   verseText,
   composingText,
+  copyright,
   onBack,
   onJumpVerse,
   onTapArea,
@@ -141,6 +143,9 @@ export function TypingScreen({
       <div className="bs-progress-bar">
         <div className="bs-progress-fill" style={{ width: `${progressPct}%` }} />
       </div>
+
+      {/* Copyright notice */}
+      {copyright && <div className="bs-copyright">{copyright.split("\n")[0]}</div>}
     </div>
   );
 }

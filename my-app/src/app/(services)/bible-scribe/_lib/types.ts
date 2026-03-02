@@ -8,6 +8,8 @@ export interface TranslationMeta {
   languageName: string;
   flag: string;
   bookCount: number;
+  source: "helloao" | "youversion";
+  copyright?: string;
 }
 
 export interface BibleBook {
