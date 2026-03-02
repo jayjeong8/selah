@@ -117,6 +117,30 @@ export const TRANSLATIONS: TranslationMeta[] = [
   },
   // Spanish
   {
+    id: "yv:128",
+    name: "Nueva Versión Internacional",
+    shortName: "NVI",
+    language: "es",
+    languageName: "Español",
+    flag: "🇪🇸",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "Nueva Versión Internacional (NVI)\nCopyright © 1999, 2015 by Biblica, Inc.®\nUsed by permission. All rights reserved worldwide.",
+  },
+  {
+    id: "yv:103",
+    name: "Nueva Biblia de las Américas",
+    shortName: "NBLA",
+    language: "es",
+    languageName: "Español",
+    flag: "🇪🇸",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "Nueva Biblia de las Américas (NBLA)\nCopyright © 2005 by The Lockman Foundation.\nAll rights reserved.",
+  },
+  {
     id: "spa_rvg",
     name: "Reina Valera Gómez",
     shortName: "RVG",
@@ -125,6 +149,30 @@ export const TRANSLATIONS: TranslationMeta[] = [
     flag: "🇪🇸",
     bookCount: 66,
     source: "helloao",
+  },
+  {
+    id: "yv:52",
+    name: "Dios Habla Hoy",
+    shortName: "DHH",
+    language: "es",
+    languageName: "Español",
+    flag: "🇪🇸",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "Dios Habla Hoy (DHH)\nCopyright © 1966, 1970, 1979, 1983, 1996 Sociedades Bíblicas Unidas.\nUsed by permission.",
+  },
+  {
+    id: "yv:149",
+    name: "Reina-Valera 1960",
+    shortName: "RVR1960",
+    language: "es",
+    languageName: "Español",
+    flag: "🇪🇸",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "Reina-Valera 1960 (RVR1960)\nCopyright © Sociedades Bíblicas Unidas, 1960.\nRenewed 1988.",
   },
   {
     id: "spa_r09",
@@ -138,6 +186,42 @@ export const TRANSLATIONS: TranslationMeta[] = [
   },
   // French
   {
+    id: "yv:21",
+    name: "La Bible du Semeur",
+    shortName: "BDS",
+    language: "fr",
+    languageName: "Français",
+    flag: "🇫🇷",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "La Bible du Semeur (BDS)\nCopyright © 1992, 1999, 2015 by Biblica, Inc.®\nUsed by permission. All rights reserved worldwide.",
+  },
+  {
+    id: "yv:152",
+    name: "Segond 21",
+    shortName: "S21",
+    language: "fr",
+    languageName: "Français",
+    flag: "🇫🇷",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "La Bible Segond 21\nCopyright © 2007 Société Biblique de Genève.\nAll rights reserved.",
+  },
+  {
+    id: "yv:106",
+    name: "Nouvelle Édition de Genève 1979",
+    shortName: "NEG79",
+    language: "fr",
+    languageName: "Français",
+    flag: "🇫🇷",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "Nouvelle Édition de Genève 1979 (NEG79)\nCopyright © 1979 Société Biblique de Genève.\nAll rights reserved.",
+  },
+  {
     id: "fra_lsg",
     name: "Louis Segond 1910",
     shortName: "LSG",
@@ -148,6 +232,30 @@ export const TRANSLATIONS: TranslationMeta[] = [
     source: "helloao",
   },
   // German
+  {
+    id: "yv:73",
+    name: "Hoffnung für Alle",
+    shortName: "HFA",
+    language: "de",
+    languageName: "Deutsch",
+    flag: "🇩🇪",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "Hoffnung für Alle® (HFA)\nCopyright © 1983, 1996, 2002, 2015 by Biblica, Inc.®\nUsed by permission. All rights reserved worldwide.",
+  },
+  {
+    id: "yv:157",
+    name: "Schlachter 2000",
+    shortName: "SCH2000",
+    language: "de",
+    languageName: "Deutsch",
+    flag: "🇩🇪",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "Schlachter 2000 (SCH2000)\nCopyright © 2000 Genfer Bibelgesellschaft.\nAll rights reserved.",
+  },
   {
     id: "deu_l12",
     name: "Luther 1912",
@@ -160,9 +268,45 @@ export const TRANSLATIONS: TranslationMeta[] = [
   },
   // Chinese
   {
+    id: "yv:1392",
+    name: "当代译本",
+    shortName: "CCB",
+    language: "zh",
+    languageName: "中文",
+    flag: "🇨🇳",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "Chinese Contemporary Bible (当代译本)\nCopyright © 1979, 2005, 2007, 2012 by Biblica, Inc.®\nUsed by permission. All rights reserved worldwide.",
+  },
+  {
+    id: "yv:140",
+    name: "和合本修订版（简体）",
+    shortName: "RCUVSS",
+    language: "zh",
+    languageName: "中文",
+    flag: "🇨🇳",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "和合本修訂版 (RCUVSS)\nCopyright © 2006, 2010 Hong Kong Bible Society.\nAll rights reserved.",
+  },
+  {
+    id: "yv:41",
+    name: "新译本（简体）",
+    shortName: "CNVS",
+    language: "zh",
+    languageName: "中文",
+    flag: "🇨🇳",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "新譯本 (CNVS)\nCopyright © 1976, 1992, 1999, 2001, 2005, 2010 Worldwide Bible Society.\nAll rights reserved.",
+  },
+  {
     id: "cmn_cu1",
     name: "简体中文和合本",
-    shortName: "简体",
+    shortName: "和合本",
     language: "zh",
     languageName: "中文",
     flag: "🇨🇳",
@@ -170,9 +314,33 @@ export const TRANSLATIONS: TranslationMeta[] = [
     source: "helloao",
   },
   {
+    id: "yv:139",
+    name: "和合本修訂版（繁體）",
+    shortName: "RCUV",
+    language: "zh",
+    languageName: "中文",
+    flag: "🇹🇼",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "和合本修訂版 (RCUV)\nCopyright © 2006, 2010 Hong Kong Bible Society.\nAll rights reserved.",
+  },
+  {
+    id: "yv:40",
+    name: "新譯本（繁體）",
+    shortName: "CNV",
+    language: "zh",
+    languageName: "中文",
+    flag: "🇹🇼",
+    bookCount: 66,
+    source: "youversion",
+    copyright:
+      "新譯本 (CNV)\nCopyright © 1976, 1992, 1999, 2001, 2005, 2010 Worldwide Bible Society.\nAll rights reserved.",
+  },
+  {
     id: "cmn_cuv",
     name: "繁體中文和合本",
-    shortName: "繁體",
+    shortName: "和合本",
     language: "zh",
     languageName: "中文",
     flag: "🇹🇼",
