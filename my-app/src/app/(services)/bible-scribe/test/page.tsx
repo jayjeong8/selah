@@ -123,7 +123,7 @@ export default function YouVersionTestPage() {
   }, [runTest]);
 
   return (
-    <div style={{ maxWidth: 900, margin: "0 auto", padding: 24, fontFamily: "monospace" }}>
+    <div style={{ maxWidth: 900, margin: "0 auto", padding: 24, fontFamily: "monospace", color: "#000" }}>
       <h1 style={{ fontSize: 20, marginBottom: 8 }}>YouVersion API Test</h1>
       <p style={{ fontSize: 14, color: "#666", marginBottom: 24 }}>
         Proxy: <code>{PROXY}</code> → <code>api.youversion.com/v1</code>
