@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { BibleBook } from "../_lib/types";
 
 interface Props {
@@ -60,6 +61,7 @@ export function BookSelect({
   onSelect,
   onBack,
 }: Props) {
+  const [activeTab, setActiveTab] = useState<"ot" | "nt">(isNewTestamentOnly ? "nt" : "ot");
   const otBooks = books.filter((b) => OT_BOOKS.has(b.id));
   const ntBooks = books.filter((b) => !OT_BOOKS.has(b.id));
 
@@ -106,23 +108,33 @@ export function BookSelect({
       </button>
       <div style={{ fontSize: "1.1rem", fontWeight: 600, margin: "8px 0 16px" }}>Choose a Book</div>
 
-      <div className="bs-book-scroll-area">
-        {!isNewTestamentOnly && otBooks.length > 0 && (
-          <>
-            <div className="bs-section-label">Old Testament</div>
-            {renderBookGrid(otBooks)}
-          </>
-        )}
-
-        {ntBooks.length > 0 && (
-          <>
-            <div className="bs-section-label" style={{ marginTop: isNewTestamentOnly ? 0 : 20 }}>
+      {isNewTestamentOnly ? (
+        <div className="bs-book-scroll-area">{renderBookGrid(ntBooks)}</div>
+      ) : (
+        <>
+          <div className="bs-tab-bar">
+            <button
+              type="button"
+              className="bs-tab-btn"
+              data-active={activeTab === "ot"}
+              onClick={() => setActiveTab("ot")}
+            >
+              Old Testament
+            </button>
+            <button
+              type="button"
+              className="bs-tab-btn"
+              data-active={activeTab === "nt"}
+              onClick={() => setActiveTab("nt")}
+            >
               New Testament
-            </div>
-            {renderBookGrid(ntBooks)}
-          </>
-        )}
-      </div>
+            </button>
+          </div>
+          <div className="bs-book-scroll-area">
+            {activeTab === "ot" ? renderBookGrid(otBooks) : renderBookGrid(ntBooks)}
+          </div>
+        </>
+      )}
     </div>
   );
 }
