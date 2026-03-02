@@ -102,19 +102,6 @@ export async function isChapterCompleted(
   return !!entry;
 }
 
-/** Get all unique active dates (YYYY-MM-DD) from progress across all translations */
-export async function getAllActiveDates(): Promise<string[]> {
-  const db = await getDB();
-  const all = await db.getAll("progress");
-  const dateSet = new Set<string>();
-  for (const entry of all) {
-    // completedAt is an ISO string — extract the date portion
-    const date = entry.completedAt.slice(0, 10);
-    dateSet.add(date);
-  }
-  return [...dateSet].sort();
-}
-
 // ── Bookmarks ──
 
 export async function getBookmarks(translationId?: string): Promise<Bookmark[]> {
