@@ -233,66 +233,38 @@ function playVerseDone(ctx: AudioContext, dest: AudioNode, now: number, jitter: 
 
 /**
  * Chapter done — vespers bells (만과기도 종)
- * Slow ascending open-fifth intervals with bell-like overtones.
- * Medieval monastic tone: D4 → G4 → A4 → D5.
+ * 4 tower bells ring in sequence: D4 → G4 → A4 → D5
+ * 900ms spacing, stereo separation, ghost resonance at the end.
+ * Total perceived duration ~8-9s with reverb.
  */
 function playChapterDone(ctx: AudioContext, dest: AudioNode, now: number, jitter: number) {
-  const notes = [294, 392, 440, 587]; // D4 G4 A4 D5 — open fifths, medieval
-  const spacing = 0.35; // Wide spacing between notes
+  const bells = [
+    { freq: 294, duration: 5.0, pan: -0.15, amp: 0.1 }, // D4
+    { freq: 392, duration: 4.5, pan: 0.1, amp: 0.11 }, // G4
+    { freq: 440, duration: 4.0, pan: -0.05, amp: 0.12 }, // A4
+    { freq: 587, duration: 3.5, pan: 0.15, amp: 0.13 }, // D5
+  ];
+  const spacing = 0.9;
 
-  for (let i = 0; i < notes.length; i++) {
-    const freq = notes[i] * jitter;
+  for (let i = 0; i < bells.length; i++) {
+    const bell = bells[i];
     const t = now + i * spacing;
 
-    // Fundamental bell tone
-    const osc1 = ctx.createOscillator();
-    osc1.type = "sine";
-    osc1.frequency.value = freq;
-    const g1 = ctx.createGain();
-    applyADSR(g1, t, {
-      attack: 0.008,
-      decay: 0.2,
-      sustain: 0.3,
-      release: 0.65,
-      peak: 0.12,
+    playBell(ctx, dest, t, {
+      fundamental: bell.freq * jitter,
+      amplitude: bell.amp,
+      duration: bell.duration,
+      strikeIntensity: 1.0,
+      pan: bell.pan,
     });
-    osc1.connect(g1);
-    g1.connect(dest);
-    osc1.start(t);
-    osc1.stop(t + 1.0);
-
-    // Inharmonic bell partial (minor third above octave, ~2.09x)
-    const osc2 = ctx.createOscillator();
-    osc2.type = "sine";
-    osc2.frequency.value = freq * 2.09;
-    const g2 = ctx.createGain();
-    applyADSR(g2, t, {
-      attack: 0.008,
-      decay: 0.12,
-      sustain: 0.15,
-      release: 0.4,
-      peak: 0.03,
-    });
-    osc2.connect(g2);
-    g2.connect(dest);
-    osc2.start(t);
-    osc2.stop(t + 0.7);
-
-    // Fifth harmonic (quiet, adds brightness)
-    const osc3 = ctx.createOscillator();
-    osc3.type = "sine";
-    osc3.frequency.value = freq * 3.0;
-    const g3 = ctx.createGain();
-    applyADSR(g3, t, {
-      attack: 0.008,
-      decay: 0.08,
-      sustain: 0.1,
-      release: 0.3,
-      peak: 0.015,
-    });
-    osc3.connect(g3);
-    g3.connect(dest);
-    osc3.start(t);
-    osc3.stop(t + 0.55);
   }
+
+  // Ghost D3 — tower resonance, 1.5s after last bell
+  const ghostTime = now + bells.length * spacing + 1.5;
+  playBell(ctx, dest, ghostTime, {
+    fundamental: 147 * jitter, // D3
+    amplitude: 0.03,
+    duration: 3.0,
+    strikeIntensity: 0,
+  });
 }
