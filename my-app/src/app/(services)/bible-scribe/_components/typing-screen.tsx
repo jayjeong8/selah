@@ -55,33 +55,33 @@ export function TypingScreen({
         >
           {verseIdx + 1}/{totalVerses}
         </button>
-      </div>
 
-      {/* Verse picker popup */}
-      {showVersePicker && (
-        <>
-          {/* biome-ignore lint/a11y/useKeyWithClickEvents: overlay dismiss */}
-          {/* biome-ignore lint/a11y/noStaticElementInteractions: overlay dismiss */}
-          <div className="bs-verse-overlay" onClick={() => setShowVersePicker(false)} />
-          <div className="bs-verse-popup bs-fade-in">
-            <div className="bs-verse-picker">
-              {verseNumbers.map((num) => (
-                <button
-                  key={num}
-                  type="button"
-                  className={`bs-chapter-btn ${num - 1 === verseIdx ? "bs-chapter-done" : ""}`}
-                  onClick={() => {
-                    onJumpVerse(num - 1);
-                    setShowVersePicker(false);
-                  }}
-                >
-                  {num}
-                </button>
-              ))}
+        {/* Verse picker popup */}
+        {showVersePicker && (
+          <>
+            {/* biome-ignore lint/a11y/useKeyWithClickEvents: overlay dismiss */}
+            {/* biome-ignore lint/a11y/noStaticElementInteractions: overlay dismiss */}
+            <div className="bs-verse-overlay" onClick={() => setShowVersePicker(false)} />
+            <div className="bs-verse-popup bs-fade-in">
+              <div className="bs-verse-picker">
+                {verseNumbers.map((num) => (
+                  <button
+                    key={num}
+                    type="button"
+                    className={`bs-chapter-btn ${num - 1 === verseIdx ? "bs-chapter-done" : ""}`}
+                    onClick={() => {
+                      onJumpVerse(num - 1);
+                      setShowVersePicker(false);
+                    }}
+                  >
+                    {num}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-        </>
-      )}
+          </>
+        )}
+      </div>
 
       {/* Typing area */}
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: tap area wraps hidden input */}
