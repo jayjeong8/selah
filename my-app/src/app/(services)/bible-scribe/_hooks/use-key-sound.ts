@@ -181,13 +181,14 @@ function playCorrect(ctx: AudioContext, dest: AudioNode, now: number, jitter: nu
 
 /**
  * Error keystroke — gentle wooden thud
- * Very soft low-frequency feedback, barely perceptible.
+ * Soft low-frequency feedback with "hollow wood" texture.
+ * No reverb — immediate, close-proximity feedback.
  */
 function playError(ctx: AudioContext, dest: AudioNode, now: number, jitter: number) {
-  // Soft triangle thud with pitch drop
+  // Soft triangle thud with pitch drop (180Hz → 120Hz)
   const osc = ctx.createOscillator();
   osc.type = "triangle";
-  osc.frequency.setValueAtTime(160 * jitter, now);
+  osc.frequency.setValueAtTime(180 * jitter, now);
   osc.frequency.exponentialRampToValueAtTime(120 * jitter, now + 0.1);
   const g = ctx.createGain();
   applyADSR(g, now, {
@@ -202,7 +203,20 @@ function playError(ctx: AudioContext, dest: AudioNode, now: number, jitter: numb
   osc.start(now);
   osc.stop(now + 0.15);
 
-  // Faint low-band noise for wooden texture
+  // 1.5x triangle partial — "hollow wood" texture
+  const osc2 = ctx.createOscillator();
+  osc2.type = "triangle";
+  osc2.frequency.setValueAtTime(180 * 1.5 * jitter, now);
+  osc2.frequency.exponentialRampToValueAtTime(120 * 1.5 * jitter, now + 0.04);
+  const g2 = ctx.createGain();
+  g2.gain.setValueAtTime(0.015, now);
+  g2.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+  osc2.connect(g2);
+  g2.connect(dest);
+  osc2.start(now);
+  osc2.stop(now + 0.05);
+
+  // Low-band noise burst — extended to 45ms for woody texture
   const noise = ctx.createBufferSource();
   noise.buffer = getNoiseBuffer(ctx);
   const lp = ctx.createBiquadFilter();
@@ -210,7 +224,7 @@ function playError(ctx: AudioContext, dest: AudioNode, now: number, jitter: numb
   lp.frequency.value = 600;
   const gn = ctx.createGain();
   gn.gain.setValueAtTime(0.03, now);
-  gn.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+  gn.gain.exponentialRampToValueAtTime(0.001, now + 0.045);
   noise.connect(lp);
   lp.connect(gn);
   gn.connect(dest);
