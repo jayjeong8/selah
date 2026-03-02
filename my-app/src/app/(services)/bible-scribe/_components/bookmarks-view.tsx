@@ -4,10 +4,11 @@ import type { Bookmark } from "../_lib/types";
 interface Props {
   bookmarks: Bookmark[];
   onDelete: (id: string) => void;
+  onScribe: (bookmark: Bookmark) => void;
   onBack: () => void;
 }
 
-export function BookmarksView({ bookmarks, onDelete, onBack }: Props) {
+export function BookmarksView({ bookmarks, onDelete, onScribe, onBack }: Props) {
   return (
     <div className="bs-fade-in">
       <button type="button" className="bs-back-btn" onClick={onBack}>
@@ -43,9 +44,14 @@ export function BookmarksView({ bookmarks, onDelete, onBack }: Props) {
               {bm.bookName} {bm.chapter}:{bm.verseNumber}
             </div>
             <div className="bs-bookmark-text">{bm.text}</div>
-            <button type="button" className="bs-bookmark-delete" onClick={() => onDelete(bm.id)}>
-              Remove
-            </button>
+            <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
+              <button type="button" className="bs-bookmark-delete" onClick={() => onScribe(bm)}>
+                Scribe
+              </button>
+              <button type="button" className="bs-bookmark-delete" onClick={() => onDelete(bm.id)}>
+                Remove
+              </button>
+            </div>
           </div>
         ))}
       </div>

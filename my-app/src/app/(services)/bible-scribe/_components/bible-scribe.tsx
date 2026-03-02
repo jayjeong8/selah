@@ -277,6 +277,39 @@ export function BibleScribe() {
     db.addBookmark(bookmark);
   }, [currentVerse, db, mode, seqState, randomVerses, randomIdx, currentChapter, currentBookName]);
 
+  const handleScribeBookmark = useCallback(
+    async (bookmark: Bookmark) => {
+      const translationId = db.settings?.translationId;
+      if (!translationId) return;
+      setLoadingData(true);
+      try {
+        let bookList = books;
+        if (bookList.length === 0) {
+          bookList = await api.loadBooks(translationId);
+          setBooks(bookList);
+        }
+        const data = await api.loadChapter(translationId, bookmark.bookCode, bookmark.chapter);
+        const verseIdx = Math.max(
+          0,
+          data.verses.findIndex((v) => v.number === bookmark.verseNumber),
+        );
+        setMode("sequential");
+        setSeqState({
+          bookCode: bookmark.bookCode,
+          bookName: data.bookName,
+          chapter: bookmark.chapter,
+          verses: data.verses,
+          verseIdx,
+          totalChapters: bookList.find((b) => b.id === bookmark.bookCode)?.numberOfChapters ?? 1,
+        });
+        setPhase("typing");
+      } finally {
+        setLoadingData(false);
+      }
+    },
+    [db.settings?.translationId, books, api],
+  );
+
   const handleNextChapter = useCallback(async () => {
     if (!seqState || !db.settings?.translationId) return;
     const nextChapter = seqState.chapter + 1;
@@ -464,6 +497,7 @@ export function BibleScribe() {
             <BookmarksView
               bookmarks={db.bookmarks}
               onDelete={db.deleteBookmark}
+              onScribe={handleScribeBookmark}
               onBack={() => setPhase("mode-select")}
             />
           )}
