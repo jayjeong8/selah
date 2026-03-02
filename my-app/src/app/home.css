@@ -194,6 +194,6 @@
 .home-entry-desc {
   font-family: var(--font-home-serif), serif;
   font-style: italic;
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: var(--home-text-muted);
 }
