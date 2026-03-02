@@ -19,7 +19,7 @@
 - `globals.css` 또는 Tailwind 전체 theme 설정 변경 금지
 - 모바일 퍼스트(Mobile-First) 원칙을 적용하여 모바일에 적합한 UI를 구현할 것
 - 모든 UI 요소는 모바일 화면 하나에 담길 수 있도록 구성할 것
-- 모바일에서도 가독성 있는 글자 크기를 사용할 것 (본문 최소 16px, 보조 텍스트 최소 14px)
+- 모바일에서도 가독성 있는 글자 크기를 사용할 것 (모든 텍스트 최소 1rem/16px)
 - UI 텍스트는 영어만 사용
 - 서비스별 디자인 컨셉은 `../docs/design-concepts/{service-name}.md` 참조 (없으면 frontend-design skill이 인터뷰를 통해 생성)
 - 서비스별 컨셉에 맞는 SVG 파비콘을 `app/(services)/서비스명/icon.svg`에 추가할 것 (Next.js 자동 감지 컨벤션 사용)
