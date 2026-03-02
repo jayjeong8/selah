@@ -50,11 +50,7 @@ export interface BellDecayParams {
  * Pre-computes the curve at 200 samples/sec for CPU efficiency.
  * Returns the time the envelope ends.
  */
-export function applyBellDecay(
-  gain: GainNode,
-  startTime: number,
-  params: BellDecayParams,
-): number {
+export function applyBellDecay(gain: GainNode, startTime: number, params: BellDecayParams): number {
   const { strikeAmp, strikeDecay, ringAmp, ringDecay, duration } = params;
   const samplesPerSec = 200;
   const numSamples = Math.max(Math.floor(duration * samplesPerSec), 2);

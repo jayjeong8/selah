@@ -78,13 +78,7 @@ export function playBell(
   startTime: number,
   options: PlayBellOptions,
 ): void {
-  const {
-    fundamental,
-    amplitude = 0.13,
-    duration = 4.0,
-    strikeIntensity = 1.0,
-    pan = 0,
-  } = options;
+  const { fundamental, amplitude = 0.13, duration = 4.0, strikeIntensity = 1.0, pan = 0 } = options;
 
   const baseStrikeDecay = 0.015;
   const baseRingDecay = duration * 0.35;
