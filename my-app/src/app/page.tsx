@@ -1,6 +1,5 @@
-import { PenLine } from "lucide-react";
 import { Cormorant_Garamond } from "next/font/google";
-import { ServiceCard } from "@/components/service-card";
+import Link from "next/link";
 import "./home.css";
 
 const cormorant = Cormorant_Garamond({
@@ -9,15 +8,6 @@ const cormorant = Cormorant_Garamond({
   style: ["normal", "italic"],
   variable: "--font-home-serif",
 });
-
-const services = [
-  {
-    title: "Bible Scribe",
-    description: "Handwrite the Word, one verse at a time",
-    href: "/bible-scribe",
-    icon: PenLine,
-  },
-];
 
 export default function Home() {
   return (
@@ -56,19 +46,110 @@ export default function Home() {
 
         {/* Services */}
         <nav className="home-reveal-4 mt-12 w-full max-w-sm">
-          <ul className="grid gap-3">
-            {services.map((service) => (
-              <li key={service.href}>
-                <ServiceCard
-                  title={service.title}
-                  description={service.description}
-                  href={service.href}
-                  icon={service.icon}
-                  className="home-card"
+          <Link href="/bible-scribe" className="home-entry">
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <g transform="translate(5, 4)">
+                <path
+                  d="M11 4 C8 4 4 5 2 7 L2 22 C4 20 8 19 11 19 Z"
+                  fill="currentColor"
+                  opacity="0.25"
                 />
-              </li>
-            ))}
-          </ul>
+                <path
+                  d="M11 4 C14 4 18 5 20 7 L20 22 C18 20 14 19 11 19 Z"
+                  fill="currentColor"
+                  opacity="0.18"
+                />
+                <line
+                  x1="11"
+                  y1="4"
+                  x2="11"
+                  y2="19"
+                  stroke="currentColor"
+                  strokeWidth="0.8"
+                  opacity="0.4"
+                />
+                <line
+                  x1="4"
+                  y1="9"
+                  x2="9"
+                  y2="9"
+                  stroke="currentColor"
+                  strokeWidth="0.5"
+                  opacity="0.3"
+                />
+                <line
+                  x1="4"
+                  y1="11"
+                  x2="9"
+                  y2="11"
+                  stroke="currentColor"
+                  strokeWidth="0.5"
+                  opacity="0.3"
+                />
+                <line
+                  x1="4"
+                  y1="13"
+                  x2="8"
+                  y2="13"
+                  stroke="currentColor"
+                  strokeWidth="0.5"
+                  opacity="0.3"
+                />
+                <line
+                  x1="13"
+                  y1="9"
+                  x2="18"
+                  y2="9"
+                  stroke="currentColor"
+                  strokeWidth="0.5"
+                  opacity="0.3"
+                />
+                <line
+                  x1="13"
+                  y1="11"
+                  x2="18"
+                  y2="11"
+                  stroke="currentColor"
+                  strokeWidth="0.5"
+                  opacity="0.3"
+                />
+                <line
+                  x1="13"
+                  y1="13"
+                  x2="17"
+                  y2="13"
+                  stroke="currentColor"
+                  strokeWidth="0.5"
+                  opacity="0.3"
+                />
+                <line
+                  x1="11"
+                  y1="22"
+                  x2="11"
+                  y2="26"
+                  stroke="var(--home-accent)"
+                  strokeWidth="1.2"
+                />
+                <line
+                  x1="9"
+                  y1="24"
+                  x2="13"
+                  y2="24"
+                  stroke="var(--home-accent)"
+                  strokeWidth="1.2"
+                />
+              </g>
+            </svg>
+            <span className="home-entry-title">Bible Scribe</span>
+            <span className="home-entry-desc">Handwrite the Word, one verse at a time</span>
+          </Link>
         </nav>
       </div>
     </main>

@@ -137,26 +137,63 @@
   }
 }
 
-/* ── Service Card Override ── */
+/* ── Service Entry Card ── */
 
-.home-root .home-card {
+.home-entry {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 2rem 1.5rem 1.75rem;
   background: var(--home-surface);
-  border-color: var(--home-border);
+  border: 1px solid var(--home-border);
+  border-radius: 0.75rem;
   color: var(--home-text);
+  text-decoration: none;
+  overflow: hidden;
   transition:
     border-color 0.3s,
-    box-shadow 0.3s;
+    box-shadow 0.3s,
+    transform 0.3s;
 }
 
-.home-root .home-card:hover {
+/* Gold gradient top border */
+.home-entry::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--home-accent), transparent);
+  opacity: 0.6;
+}
+
+.home-entry:hover {
   border-color: var(--home-accent);
+  transform: translateY(-2px);
   box-shadow:
     0 0 0 1px var(--home-accent),
-    0 4px 16px rgba(154, 123, 79, 0.1);
+    0 4px 20px rgba(154, 123, 79, 0.12);
 }
 
-.dark .home-root .home-card:hover {
+.dark .home-entry:hover {
   box-shadow:
     0 0 0 1px var(--home-accent),
-    0 4px 16px rgba(201, 169, 110, 0.08);
+    0 4px 20px rgba(201, 169, 110, 0.1);
+}
+
+.home-entry-title {
+  font-family: var(--font-home-serif), serif;
+  font-weight: 600;
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+}
+
+.home-entry-desc {
+  font-family: var(--font-home-serif), serif;
+  font-style: italic;
+  font-size: 0.875rem;
+  color: var(--home-text-muted);
 }
