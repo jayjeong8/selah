@@ -48,7 +48,7 @@ export default function Home() {
 
         {/* Tagline */}
         <p
-          className="home-reveal-3 mt-5 font-[family-name:var(--font-home-serif)] text-base italic"
+          className="home-reveal-3 mt-5 font-[family-name:var(--font-home-serif)] text-lg italic"
           style={{ color: "var(--home-text-muted)" }}
         >
           pause. reflect. grow.
