@@ -3,16 +3,24 @@
 import { useCallback, useRef } from "react";
 import { applyADSR } from "../../_shared-audio/adsr";
 import { createMasterBus } from "../../_shared-audio/master-bus";
-import { createReverbSend } from "../../_shared-audio/reverb";
+import { createReverbIR } from "../../_shared-audio/reverb";
 
 export type SoundType = "correct" | "error" | "verse-done" | "chapter-done";
+
+/** Per-sound reverb send configuration */
+const REVERB_CONFIG: Record<SoundType, { dry: number; reverbSend: number }> = {
+  correct: { dry: 0.85, reverbSend: 0.12 },
+  error: { dry: 1.0, reverbSend: 0.0 },
+  "verse-done": { dry: 0.7, reverbSend: 0.4 },
+  "chapter-done": { dry: 0.65, reverbSend: 0.45 },
+};
 
 /** Shared noise buffer for quill-scratch transients */
 let sharedNoiseBuffer: AudioBuffer | null = null;
 
 function getNoiseBuffer(ctx: AudioContext): AudioBuffer {
   if (!sharedNoiseBuffer || sharedNoiseBuffer.sampleRate !== ctx.sampleRate) {
-    const length = Math.floor(ctx.sampleRate * 0.03); // 30ms
+    const length = Math.floor(ctx.sampleRate * 0.05); // 50ms (extended for improved scratch)
     sharedNoiseBuffer = ctx.createBuffer(1, length, ctx.sampleRate);
     const data = sharedNoiseBuffer.getChannelData(0);
     for (let i = 0; i < length; i++) {
@@ -22,68 +30,95 @@ function getNoiseBuffer(ctx: AudioContext): AudioBuffer {
   return sharedNoiseBuffer;
 }
 
+interface AudioRouting {
+  ctx: AudioContext;
+  bus: GainNode;
+  convolver: ConvolverNode;
+}
+
 export function useKeySound() {
-  const ctxRef = useRef<AudioContext | null>(null);
-  const busRef = useRef<GainNode | null>(null);
-  const reverbRef = useRef<{ input: GainNode; output: GainNode } | null>(null);
+  const routingRef = useRef<AudioRouting | null>(null);
   const enabledRef = useRef(true);
 
-  const ensureCtx = useCallback((): AudioContext | null => {
-    if (!ctxRef.current) {
+  const ensureCtx = useCallback((): AudioRouting | null => {
+    if (!routingRef.current) {
       try {
         const ctx = new AudioContext();
-        ctxRef.current = ctx;
 
         const bus = createMasterBus(ctx, {
-          warmth: 1.03,
-          threshold: -24,
-          ratio: 1.8,
+          warmth: 1.4,
+          threshold: -20,
+          ratio: 2.5,
+          attack: 0.001,
+          release: 0.25,
           makeupGain: 1.15,
         });
-        busRef.current = bus;
 
-        // Cathedral reverb — spacious, long tail
-        const reverb = createReverbSend(ctx, {
-          wetLevel: 0.28,
-          dryLevel: 0.8,
-          irOptions: { duration: 1.8, decay: 4.5, density: 0.85 },
+        // Cathedral reverb convolver → master bus
+        const convolver = ctx.createConvolver();
+        convolver.buffer = createReverbIR(ctx, {
+          duration: 3.5,
+          decay: 3.0,
+          density: 0.85,
+          highDamping: 5500,
+          predelay: 0.02,
         });
-        reverb.output.connect(bus);
-        reverbRef.current = reverb;
+        convolver.connect(bus);
+
+        routingRef.current = { ctx, bus, convolver };
       } catch {
         return null;
       }
     }
-    const ctx = ctxRef.current;
+    const { ctx } = routingRef.current;
     if (ctx.state === "suspended") {
       ctx.resume();
     }
-    return ctx;
+    return routingRef.current;
   }, []);
 
   const play = useCallback(
     (type: SoundType) => {
       if (!enabledRef.current) return;
-      const ctx = ensureCtx();
-      const bus = busRef.current;
-      const reverb = reverbRef.current;
-      if (!ctx || !bus) return;
+      const routing = ensureCtx();
+      if (!routing) return;
 
+      const { ctx, bus, convolver } = routing;
+      const config = REVERB_CONFIG[type];
       const now = ctx.currentTime;
       const jitter = 1 + (Math.random() - 0.5) * 0.04;
 
+      // Per-sound dry/reverb routing
+      const dryGain = ctx.createGain();
+      dryGain.gain.value = config.dry;
+      dryGain.connect(bus);
+
+      let dest: AudioNode = dryGain;
+
+      if (config.reverbSend > 0) {
+        const reverbGain = ctx.createGain();
+        reverbGain.gain.value = config.reverbSend;
+        reverbGain.connect(convolver);
+
+        // Merge node: sound → merge → [dry, reverb]
+        const merge = ctx.createGain();
+        merge.connect(dryGain);
+        merge.connect(reverbGain);
+        dest = merge;
+      }
+
       switch (type) {
         case "correct":
-          playCorrect(ctx, reverb?.input ?? bus, now, jitter);
+          playCorrect(ctx, dest, now, jitter);
           break;
         case "error":
-          playError(ctx, bus, now, jitter);
+          playError(ctx, dest, now, jitter);
           break;
         case "verse-done":
-          playVerseDone(ctx, reverb?.input ?? bus, now, jitter);
+          playVerseDone(ctx, dest, now, jitter);
           break;
         case "chapter-done":
-          playChapterDone(ctx, reverb?.input ?? bus, now, jitter);
+          playChapterDone(ctx, dest, now, jitter);
           break;
       }
     },
@@ -208,9 +243,9 @@ function playVerseDone(ctx: AudioContext, dest: AudioNode, now: number, jitter: 
   const partials = [
     { ratio: 1.0, type: "sine" as const, peak: 0.13, decay: 0.15, release: 0.6 },
     { ratio: 2.0, type: "sine" as const, peak: 0.06, decay: 0.1, release: 0.45 },
-    { ratio: 2.09, type: "sine" as const, peak: 0.04, decay: 0.08, release: 0.35 }, // minor third above octave — bell character
-    { ratio: 3.0, type: "sine" as const, peak: 0.025, decay: 0.07, release: 0.3 }, // twelfth
-    { ratio: 4.16, type: "sine" as const, peak: 0.012, decay: 0.05, release: 0.2 }, // high shimmer
+    { ratio: 2.09, type: "sine" as const, peak: 0.04, decay: 0.08, release: 0.35 },
+    { ratio: 3.0, type: "sine" as const, peak: 0.025, decay: 0.07, release: 0.3 },
+    { ratio: 4.16, type: "sine" as const, peak: 0.012, decay: 0.05, release: 0.2 },
   ];
 
   for (const p of partials) {
