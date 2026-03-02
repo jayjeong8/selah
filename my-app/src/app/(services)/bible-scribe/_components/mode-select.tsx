@@ -1,6 +1,5 @@
 import { BookOpen, Shuffle } from "lucide-react";
-import type { BibleBook, GraceDayState, ScribeMode, StreakData } from "../_lib/types";
-import { StreakDisplay } from "./streak-display";
+import type { BibleBook, ScribeMode } from "../_lib/types";
 
 interface Props {
   onSelect: (mode: ScribeMode) => void;
@@ -9,9 +8,6 @@ interface Props {
   lastBookCode?: string;
   lastChapter?: number;
   books: BibleBook[];
-  streak: StreakData;
-  graceDayState: GraceDayState | undefined;
-  onUseGraceDay: () => void;
 }
 
 export function ModeSelect({
@@ -21,9 +17,6 @@ export function ModeSelect({
   lastBookCode,
   lastChapter,
   books,
-  streak,
-  graceDayState,
-  onUseGraceDay,
 }: Props) {
   const lastBookName = lastBookCode ? books.find((b) => b.id === lastBookCode)?.name : undefined;
   const continueLabel =
@@ -34,8 +27,6 @@ export function ModeSelect({
       <div style={{ textAlign: "center", marginBottom: 20 }}>
         <div style={{ fontSize: "0.8rem", color: "var(--bs-secondary)" }}>{translationName}</div>
       </div>
-
-      <StreakDisplay streak={streak} graceDayState={graceDayState} onUseGraceDay={onUseGraceDay} />
 
       <div className="bs-mode-grid">
         <button type="button" className="bs-mode-card" onClick={() => onSelect("sequential")}>
