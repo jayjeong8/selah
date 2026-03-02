@@ -493,13 +493,33 @@
   color: var(--bs-gold);
 }
 
+.bs-verse-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+.bs-verse-popup {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 4px;
+  background: var(--bs-surface);
+  border: 1px solid var(--bs-border);
+  border-radius: 3px;
+  padding: 12px;
+  z-index: 11;
+  max-height: 280px;
+  overflow-y: auto;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  min-width: 220px;
+}
+
 .bs-verse-picker {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 6px;
-  max-height: 200px;
-  overflow-y: auto;
-  margin-bottom: 12px;
   align-content: start;
 }
 
