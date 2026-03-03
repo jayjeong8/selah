@@ -235,6 +235,11 @@ export function BibleScribe() {
     (e: React.FormEvent<HTMLInputElement>) => {
       if (phase !== "typing") return;
       if (typing.state.done) return;
+      // Prevent processing during IME composition (Korean, Japanese, Chinese etc.)
+      // On mobile browsers, `input` event can fire before `compositionstart`,
+      // so `isComposing` on the native InputEvent is more reliable than
+      // tracking composition state via compositionstart/compositionend events.
+      if ((e.nativeEvent as InputEvent).isComposing) return;
       const val = (e.target as HTMLInputElement).value;
       typing.handleInput(val);
     },
