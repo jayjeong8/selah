@@ -1,6 +1,22 @@
+import type { Metadata } from "next";
 import { Cormorant_Garamond } from "next/font/google";
 import Link from "next/link";
 import "./home.css";
+
+export const metadata: Metadata = {
+  title: "selah — Pause. Reflect. Grow.",
+  description:
+    "Faith-based web tools for deeper Bible engagement. Transcribe Scripture verse by verse, build spiritual habits, and grow in the Word — free, offline-ready, and multilingual.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "selah — Pause. Reflect. Grow.",
+    description:
+      "Faith-based web tools for deeper Bible engagement. Transcribe Scripture, build spiritual habits, and grow in the Word.",
+    url: "/",
+  },
+};
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],

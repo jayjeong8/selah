@@ -1,0 +1,21 @@
+# selah
+
+> Pause. Reflect. Grow. — Faith-based web tools for deeper Bible engagement.
+
+## Bible Scribe
+
+A meditative scripture transcription tool. Type the Bible verse by verse in 32 translations across 7 languages (English, Korean, Spanish, French, German, Chinese, Japanese).
+
+- Sequential mode: transcribe chapter by chapter
+- Random mode: curated passages for reflection
+- Bookmarks and progress tracking
+- Meditative typing sounds
+- Offline support via IndexedDB
+- Dark mode
+- Free, no signup required
+
+URL: https://selah-alpha.vercel.app/bible-scribe
+
+## More Info
+
+- [Full details](https://selah-alpha.vercel.app/llms-full.txt)

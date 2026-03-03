@@ -15,11 +15,40 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://selah-alpha.vercel.app"),
   title: {
     template: "%s | selah",
-    default: "selah",
+    default: "selah — Pause. Reflect. Grow.",
   },
-  description: "A collection of Bible and Christian web services.",
+  description:
+    "Faith-based web tools for deeper Bible engagement. Transcribe Scripture verse by verse, build spiritual habits, and grow in the Word — free, offline-ready, and multilingual.",
+  keywords: [
+    "bible tools",
+    "christian web app",
+    "scripture engagement",
+    "bible study online",
+    "faith tools",
+    "bible meditation",
+    "spiritual growth",
+  ],
+  openGraph: {
+    type: "website",
+    siteName: "selah",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+    },
+  },
 };
 
 export default function RootLayout({
