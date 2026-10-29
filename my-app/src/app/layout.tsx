@@ -16,7 +16,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   icons: { icon: "/selah-icon.svg", apple: "/selah-icon.svg" },
-  metadataBase: new URL("https://selah-alpha.vercel.app"),
+  metadataBase: new URL("https://selah-git-feat-ios-capacitor-jayjeong8s-projects.vercel.app"),
   title: {
     template: "%s | selah",
     default: "selah — Pause. Reflect. Grow.",
