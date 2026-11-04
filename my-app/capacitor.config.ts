@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'Selah',
   webDir: 'out',
   server: {
-    url: 'https://selah-git-feat-ios-capacitor-jayjeong8s-projects.vercel.app',
+    url: 'https://selah-alpha.vercel.app',
     cleartext: false,
   },
 };

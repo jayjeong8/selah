@@ -164,9 +164,13 @@ export default function Home() {
               </g>
             </svg>
             <span className="home-entry-title">Bible Scribe</span>
-            <span className="home-entry-desc">Handwrite the Word, one verse at a time</span>
+            <span className="home-entry-desc">Type the Word, one verse at a time</span>
           </Link>
         </nav>
+        <footer className="mt-10 flex gap-6 text-sm" style={{ color: "var(--home-text-muted)" }}>
+          <Link href="/privacy" className="underline">Privacy Policy</Link>
+          <Link href="/support" className="underline">Support</Link>
+        </footer>
       </div>
     </main>
   );
