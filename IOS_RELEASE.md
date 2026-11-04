@@ -35,4 +35,5 @@ App Store icons must be RGB with no alpha channel. Capture screenshots from the 
 - Declare provider request logs and other off-device collection accurately. Local progress storage alone is not cloud collection, but hosted interface and API request logs must be assessed separately.
 - Set the app price to zero and add actual iPhone and iPad screenshots.
 - Confirm review contact information privately in App Store Connect.
-- Build 1.0 (1) was successfully uploaded on November 5, 2026; Apple processing and review remain separate steps.
+- Build 1.0 (1) was successfully uploaded and processed on November 5, 2026, and selected for the App Store version. Actual iPhone/iPad screenshots, free pricing, and App Store privacy details are saved.
+- A request to verify iOS distribution permissions for the existing translations was submitted to YouVersion support on November 5, 2026. Keep the full translation list while awaiting the response. Apple content-rights confirmation and final review submission remain pending; do not represent the app as approved or published.
