@@ -9,3 +9,5 @@ These are **web UI design drafts**, not native iOS screenshots. They have not be
 To regenerate the compositions, install Pillow, generate `build/CormorantGaramond-Light.ttf` with `scripts/generate-brand-assets.py`, and run `python scripts/compose-store-screenshots.py` from the repository root. The script preserves the captured UI and adds headings outside its frame.
 
 `icon-in-app-store-connect.jpg` records the new icon shown by App Store Connect after build 1.0 (2) was selected and saved. It is proof of registration, not an App Store marketing screenshot.
+
+`icon-bold-in-app-store-connect.jpg` records the more legible revision shown after build 1.0 (3) was selected and saved. It uses weight 500 lettering, thicker gold rules and a larger diamond.
