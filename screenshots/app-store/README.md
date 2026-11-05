@@ -11,3 +11,9 @@ To regenerate the compositions, install Pillow, generate `build/CormorantGaramon
 `icon-in-app-store-connect.jpg` records the new icon shown by App Store Connect after build 1.0 (2) was selected and saved. It is proof of registration, not an App Store marketing screenshot.
 
 `icon-bold-in-app-store-connect.jpg` records the more legible revision shown after build 1.0 (3) was selected and saved. It uses weight 500 lettering, thicker gold rules and a larger diamond.
+
+`native/iphone-translation-select.png` and `native/ipad-translation-select.png` are actual iOS Simulator captures of the production translation selector with the status-bar overlap fixed. They are native app screens rather than browser mockups. For capture, local QA copies started at the production Bible Scribe route; release builds still start at the homepage. See `../safe-area/README.md` for validation details.
+
+The `native/*-translation-select.png`, `native/*-translation-dark.png` and `native/*-home.png` captures were refreshed with build 1.0 (5). Their safe-area backgrounds now match their light/dark page backgrounds, and status-bar symbols use a contrasting color. The `iphone/native-home-latest.png` and `ipad/native-home-latest.png` files are the unresized homepage originals.
+
+App Store Connect now has three final native screenshots per device: light translation selector, dark translation selector, and homepage. `native/iphone-uploaded.png` and `native/ipad-uploaded.png` record the registered sets. The promotional typing/bookmark compositions remain drafts.

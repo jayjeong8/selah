@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { NativeStatusBar } from "@/components/native-status-bar";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
@@ -12,6 +13,12 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   icons: { icon: "/selah-icon.svg", apple: "/apple-touch-icon.png" },
@@ -64,6 +71,7 @@ export default function RootLayout({
     >
       <body className="font-sans antialiased">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+          <NativeStatusBar />
           {children}
         </ThemeProvider>
       </body>
