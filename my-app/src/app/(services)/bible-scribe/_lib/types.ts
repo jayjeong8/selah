@@ -54,6 +54,7 @@ export interface Bookmark {
 export interface BibleScribeSettings {
   translationId: string;
   soundEnabled: boolean;
+  hapticsEnabled: boolean;
   lastBookCode?: string;
   lastChapter?: number;
   darkMode?: "auto" | "light" | "dark";

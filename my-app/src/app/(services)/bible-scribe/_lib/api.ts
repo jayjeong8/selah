@@ -165,6 +165,35 @@ interface YvPassageResponse {
   reference: string;
 }
 
+interface YvVersionResponse {
+  copyright?: string;
+  promotionalContent?: string;
+  promotional_content?: string;
+}
+
+export interface ChapterFetchResult {
+  bookName: string;
+  verses: BibleVerse[];
+  /** Provider cache lifetime in seconds. Undefined means no provider limit. */
+  cacheMaxAgeSeconds?: number;
+}
+
+function parseCacheMaxAge(value: string | null): number | undefined {
+  if (!value || /(?:^|,\s*)no-store(?:,|$)/i.test(value)) return 0;
+  const match = value.match(/(?:^|,\s*)max-age\s*=\s*(\d+)/i);
+  return match ? Number.parseInt(match[1], 10) : 0;
+}
+
+export async function fetchTranslationCopyright(
+  translationId: string,
+): Promise<string | undefined> {
+  if (!translationId.startsWith("yv:")) return undefined;
+  const res = await fetch(`${YV_PROXY}/bibles/${translationId.replace("yv:", "")}`);
+  if (!res.ok) return undefined;
+  const data: YvVersionResponse = await res.json();
+  return data.copyright ?? data.promotionalContent ?? data.promotional_content;
+}
+
 async function fetchBooksYouVersion(versionId: string): Promise<BibleBook[]> {
   const res = await fetch(`${YV_PROXY}/bibles/${versionId}/index`);
   if (!res.ok) throw new Error(`Failed to fetch YV books: ${res.status}`);
@@ -231,7 +260,7 @@ async function fetchChapterYouVersion(
   versionId: string,
   bookCode: string,
   chapter: number,
-): Promise<{ bookName: string; verses: BibleVerse[] }> {
+): Promise<ChapterFetchResult> {
   const passageId = `${bookCode}.${chapter}`;
   const res = await fetch(`${YV_PROXY}/bibles/${versionId}/passages/${passageId}?format=html`);
   if (!res.ok) throw new Error(`Failed to fetch YV chapter: ${res.status}`);
@@ -241,7 +270,14 @@ async function fetchChapterYouVersion(
   // reference is like "창세기 1" or "Genesis 1" — extract book name by removing chapter number
   const bookName = data.reference.replace(/\s+\d+$/, "");
 
-  return { bookName, verses };
+  const cacheControl = res.headers.get("Cache-Control");
+  return {
+    bookName,
+    verses,
+    // The Platform guarantees this header. If a proxy/configuration mistake
+    // drops it, do not persist the passage locally.
+    cacheMaxAgeSeconds: cacheControl ? parseCacheMaxAge(cacheControl) : 0,
+  };
 }
 
 // ── Router ──
@@ -261,7 +297,7 @@ export async function fetchChapter(
   bookCode: string,
   chapter: number,
   source: "helloao" | "youversion" = "helloao",
-): Promise<{ bookName: string; verses: BibleVerse[] }> {
+): Promise<ChapterFetchResult> {
   if (source === "youversion") {
     return fetchChapterYouVersion(translationId.replace("yv:", ""), bookCode, chapter);
   }

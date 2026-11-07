@@ -8,6 +8,7 @@ interface Props {
   lastBookCode?: string;
   lastChapter?: number;
   books: BibleBook[];
+  onContinue: () => void;
 }
 
 export function ModeSelect({
@@ -17,10 +18,15 @@ export function ModeSelect({
   lastBookCode,
   lastChapter,
   books,
+  onContinue,
 }: Props) {
   const lastBookName = lastBookCode ? books.find((b) => b.id === lastBookCode)?.name : undefined;
   const continueLabel =
-    lastBookName && lastChapter ? `Continue from ${lastBookName} ${lastChapter}` : null;
+    lastBookCode && lastChapter
+      ? lastBookName
+        ? `Continue from ${lastBookName} ${lastChapter}`
+        : "Continue from your last session"
+      : null;
 
   return (
     <div className="bs-fade-in">
@@ -34,14 +40,20 @@ export function ModeSelect({
       </div>
 
       <div className="bs-mode-grid">
-        <button type="button" className="bs-mode-card" onClick={() => onSelect("sequential")}>
-          <div className="bs-mode-icon">
-            <BookOpen size={32} />
-          </div>
-          <div className="bs-mode-title">Sequential</div>
-          <div className="bs-mode-desc">Book by book, chapter by chapter</div>
-          {continueLabel && <div className="bs-mode-continue">{continueLabel}</div>}
-        </button>
+        <div className="bs-mode-card-group">
+          <button type="button" className="bs-mode-card" onClick={() => onSelect("sequential")}>
+            <div className="bs-mode-icon">
+              <BookOpen size={32} />
+            </div>
+            <div className="bs-mode-title">Sequential</div>
+            <div className="bs-mode-desc">Book by book, chapter by chapter</div>
+          </button>
+          {continueLabel && (
+            <button type="button" className="bs-mode-continue" onClick={onContinue}>
+              {continueLabel} →
+            </button>
+          )}
+        </div>
 
         <button type="button" className="bs-mode-card" onClick={() => onSelect("random")}>
           <div className="bs-mode-icon">

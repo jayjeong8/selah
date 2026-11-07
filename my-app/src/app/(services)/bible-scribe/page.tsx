@@ -4,7 +4,7 @@ import { BibleScribe } from "./_components/bible-scribe";
 export const metadata: Metadata = {
   title: "Bible Scribe — Transcribe Scripture Verse by Verse",
   description:
-    "Type the Bible verse by verse in 32 translations across 7 languages. Sequential and random modes, bookmarks, meditative typing sounds. Free, no signup, works offline.",
+    "Type the Bible verse by verse in 32 translations across 7 languages. Sequential and random modes, bookmarks, meditative typing sounds and light haptics. Free, no signup, works offline.",
   keywords: [
     "bible typing",
     "scripture transcription",
@@ -45,7 +45,7 @@ const jsonLd = {
   "@type": "WebApplication",
   name: "Bible Scribe",
   description:
-    "Type the Bible verse by verse in 32 translations across 7 languages. Sequential and random modes, bookmarks, meditative typing sounds. Free, no signup, works offline.",
+    "Type the Bible verse by verse in 32 translations across 7 languages. Sequential and random modes, bookmarks, meditative typing sounds and light haptics. Free, no signup, works offline.",
   url: "https://selah-alpha.vercel.app/bible-scribe",
   applicationCategory: "EducationalApplication",
   operatingSystem: "Web",
@@ -59,7 +59,7 @@ const jsonLd = {
     "32 Bible translations in 7 languages",
     "Sequential and random transcription modes",
     "Bookmarks and progress tracking",
-    "Meditative typing sounds",
+    "Meditative typing sounds and light haptics",
     "Offline support",
     "Dark mode",
   ],

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
-import { fetchBooks, fetchChapter } from "../_lib/api";
+import { fetchBooks, fetchChapter, fetchTranslationCopyright } from "../_lib/api";
 import { getCachedChapter, putCachedChapter } from "../_lib/db";
 import { getTranslationById } from "../_lib/translations";
 import type { BibleBook, BibleVerse } from "../_lib/types";
@@ -28,13 +28,28 @@ export function useApi() {
       const source = getTranslationById(translationId)?.source ?? "helloao";
       const data = await fetchChapter(translationId, bookCode, chapter, source);
 
-      // Cache the result (chapter data is immutable, no expiry needed)
-      await putCachedChapter(translationId, bookCode, data.bookName, chapter, data.verses);
+      // YouVersion controls retention through Cache-Control. A missing
+      // directive is treated as provider-unlimited; max-age=0/no-store is not
+      // persisted at all.
+      if (data.cacheMaxAgeSeconds === undefined || data.cacheMaxAgeSeconds > 0) {
+        const expiresAt =
+          data.cacheMaxAgeSeconds === undefined
+            ? undefined
+            : Date.now() + data.cacheMaxAgeSeconds * 1000;
+        await putCachedChapter(
+          translationId,
+          bookCode,
+          data.bookName,
+          chapter,
+          data.verses,
+          expiresAt,
+        );
+      }
 
       return data;
     },
     [],
   );
 
-  return { loadBooks, loadChapter };
+  return { loadBooks, loadChapter, loadCopyright: fetchTranslationCopyright };
 }
