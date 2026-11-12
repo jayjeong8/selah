@@ -27,15 +27,18 @@ export function useTypingEngine(callbacks?: TypingCallbacks) {
   const composingRef = useRef(false);
   const prevLenRef = useRef(0);
 
-  const start = useCallback((target: string) => {
+  const start = useCallback((target: string, input = "") => {
     const normalized = target.normalize("NFC");
     targetRef.current = normalized;
     composingRef.current = false;
-    prevLenRef.current = 0;
+    const restored = input.normalize("NFC").slice(0, normalized.length);
+    prevLenRef.current = restored.length;
     setState({
-      cursor: 0,
-      charStates: new Array(normalized.length).fill(null),
-      done: false,
+      cursor: restored.length,
+      charStates: Array.from(normalized, (char, i) =>
+        i < restored.length ? restored[i] === char : null,
+      ),
+      done: restored.length >= normalized.length,
     });
   }, []);
 

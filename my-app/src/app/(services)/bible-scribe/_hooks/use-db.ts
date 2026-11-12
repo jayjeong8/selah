@@ -29,6 +29,7 @@ export interface DBActions {
   addBookmark: (bookmark: Bookmark) => Promise<void>;
   deleteBookmark: (id: string) => Promise<void>;
   toggleSound: () => Promise<void>;
+  toggleHaptics: () => Promise<void>;
   saveDarkMode: (mode: "auto" | "light" | "dark") => Promise<void>;
   exportData: () => Promise<ExportData>;
   importData: (data: ExportData) => Promise<void>;
@@ -133,6 +134,16 @@ export function useDB(): DBState & DBActions {
     setState((prev) => ({ ...prev, settings: updated }));
   }, [state.settings]);
 
+  const toggleHaptics = useCallback(async () => {
+    if (!state.settings) return;
+    const updated: BibleScribeSettings = {
+      ...state.settings,
+      hapticsEnabled: !(state.settings.hapticsEnabled ?? true),
+    };
+    await putSettings(updated);
+    setState((prev) => ({ ...prev, settings: updated }));
+  }, [state.settings]);
+
   const saveDarkMode = useCallback(
     async (mode: "auto" | "light" | "dark") => {
       if (!state.settings) return;
@@ -162,6 +173,7 @@ export function useDB(): DBState & DBActions {
     addBookmark,
     deleteBookmark,
     toggleSound,
+    toggleHaptics,
     saveDarkMode,
     exportData,
     importData: importDataFn,

@@ -19,6 +19,7 @@ A meditative scripture transcription tool — type the Word, one verse at a time
 - Progress tracking and bookmarks
 - Language filter for quick translation selection
 - Meditative typing sounds (correct, error, verse-done, chapter-done)
+- Light typing haptics with an independent on/off toggle
 - Offline-capable with IndexedDB caching
 - Dark mode
 - Data export/import

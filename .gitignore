@@ -2,3 +2,6 @@ lefthook.yml
 .idea/
 test-results/
 docs/
+/build/
+.vercel
+.env*

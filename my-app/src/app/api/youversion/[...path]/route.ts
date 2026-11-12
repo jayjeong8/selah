@@ -26,8 +26,16 @@ export async function GET(
 
   const data = await response.text();
 
-  return new NextResponse(data, {
-    status: response.status,
-    headers: { "Content-Type": response.headers.get("Content-Type") ?? "application/json" },
+  const headers = new Headers({
+    "Content-Type": response.headers.get("Content-Type") ?? "application/json",
   });
+
+  // Preserve YouVersion's retention directive through the proxy. WKWebView
+  // and browsers can then apply the same cache policy as the upstream API.
+  for (const name of ["Cache-Control", "ETag", "Last-Modified", "Expires", "Vary"]) {
+    const value = response.headers.get(name);
+    if (value) headers.set(name, value);
+  }
+
+  return new NextResponse(data, { status: response.status, headers });
 }

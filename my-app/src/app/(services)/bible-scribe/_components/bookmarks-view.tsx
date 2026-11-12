@@ -28,12 +28,10 @@ export function BookmarksView({ bookmarks, onDelete, onScribe, onBack }: Props) 
       </div>
 
       {bookmarks.length === 0 && (
-        <div style={{ textAlign: "center", padding: "40px 0", color: "var(--bs-secondary)" }}>
-          <BookmarkIcon size={24} style={{ marginBottom: 8 }} />
-          <div>No bookmarks yet</div>
-          <div style={{ fontSize: "0.8rem", marginTop: 4 }}>
-            Save verses while typing to find them here
-          </div>
+        <div className="bs-bookmark-empty">
+          <BookmarkIcon className="bs-bookmark-empty-icon" size={32} aria-hidden="true" />
+          <div className="bs-bookmark-empty-title">No bookmarks yet</div>
+          <div className="bs-bookmark-empty-copy">Save verses while typing to find them here</div>
         </div>
       )}
 

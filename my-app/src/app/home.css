@@ -23,6 +23,11 @@
 
 /* ── Color Palette: Midnight Sanctuary (Dark) ── */
 
+.home-content {
+  padding: calc(5rem + env(safe-area-inset-top, 0px)) calc(1.5rem + env(safe-area-inset-right, 0px))
+    calc(5rem + env(safe-area-inset-bottom, 0px)) calc(1.5rem + env(safe-area-inset-left, 0px));
+}
+
 .dark .home-root {
   --home-bg: #13110f;
   --home-bg-subtle: #1a1714;

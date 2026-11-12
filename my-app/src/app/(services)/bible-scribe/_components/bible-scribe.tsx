@@ -1,12 +1,21 @@
 "use client";
 
-import { Bookmark as BookmarkIcon, Sparkles, Volume2, VolumeX } from "lucide-react";
+import {
+  Bookmark as BookmarkIcon,
+  Sparkles,
+  Vibrate,
+  VibrateOff,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useApi } from "../_hooks/use-api";
 import { useDarkMode } from "../_hooks/use-dark-mode";
 import { useDB } from "../_hooks/use-db";
+import { useHaptics } from "../_hooks/use-haptics";
 import { useKeySound } from "../_hooks/use-key-sound";
+import { type ResumePosition, useResume } from "../_hooks/use-resume";
 import { useTypingEngine } from "../_hooks/use-typing-engine";
 import { buildRandomSession, selectRandomPassages } from "../_lib/random-session";
 import { getTranslationById } from "../_lib/translations";
@@ -49,7 +58,10 @@ interface RandomVerseItem {
 export function BibleScribe() {
   const db = useDB();
   const api = useApi();
+  const resume = useResume(db.settings?.translationId);
+  const pendingResumeRef = useRef<ResumePosition | null>(null);
   const sound = useKeySound();
+  const haptics = useHaptics();
   const theme = useDarkMode({ saved: db.settings?.darkMode, onSave: db.saveDarkMode });
   const [phase, setPhase] = useState<Phase>("loading");
   const [mode, setMode] = useState<ScribeMode>("sequential");
@@ -58,6 +70,7 @@ export function BibleScribe() {
   const [randomVerses, setRandomVerses] = useState<RandomVerseItem[]>([]);
   const [randomIdx, setRandomIdx] = useState(0);
   const [loadingData, setLoadingData] = useState(false);
+  const [providerCopyright, setProviderCopyright] = useState<string | undefined>();
   const [composingText, setComposingText] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -71,8 +84,14 @@ export function BibleScribe() {
   const currentVerseIdx = mode === "sequential" ? (seqState?.verseIdx ?? 0) : randomIdx;
 
   const typing = useTypingEngine({
-    onCharCorrect: () => sound.play("correct"),
-    onCharError: () => sound.play("error"),
+    onCharCorrect: () => {
+      sound.play("correct");
+      haptics.pulse();
+    },
+    onCharError: () => {
+      sound.play("error");
+      haptics.pulse();
+    },
     onVerseDone: () => {
       sound.play("verse-done");
     },
@@ -90,28 +109,69 @@ export function BibleScribe() {
     }
   }, [db.loading, db.settings, phase]);
 
+  // YouVersion requires the version's own copyright attribution near the
+  // passage. Use the bundled notice immediately, then replace it with the
+  // provider metadata when available.
+  useEffect(() => {
+    const translationId = db.settings?.translationId;
+    if (!translationId || getTranslationById(translationId)?.source !== "youversion") {
+      setProviderCopyright(undefined);
+      return;
+    }
+    let active = true;
+    api.loadCopyright(translationId).then((copyright) => {
+      if (active) setProviderCopyright(copyright);
+    });
+    return () => {
+      active = false;
+    };
+  }, [api.loadCopyright, db.settings?.translationId]);
+
   // Sound sync
   useEffect(() => {
     sound.setEnabled(db.settings?.soundEnabled ?? true);
   }, [db.settings?.soundEnabled, sound]);
 
+  // Haptics sync with the persisted setting; older settings default to on.
+  useEffect(() => {
+    haptics.setEnabled(db.settings?.hapticsEnabled ?? true);
+  }, [db.settings?.hapticsEnabled, haptics]);
+
   // Start typing when verse changes
   useEffect(() => {
     if (phase === "typing" && currentVerse) {
-      typing.start(currentVerse.text);
+      const pending = pendingResumeRef.current;
+      const restoredInput =
+        pending?.verseNumber === currentVerse.number && pending.verseText === currentVerse.text
+          ? pending.input
+          : "";
+      pendingResumeRef.current = null;
+      typing.start(currentVerse.text, restoredInput);
+      setComposingText("");
       if (inputRef.current) {
-        inputRef.current.value = "";
+        inputRef.current.value = restoredInput;
+      }
+      if (mode === "sequential" && seqState) {
+        resume.save({
+          bookCode: seqState.bookCode,
+          chapter: seqState.chapter,
+          verseNumber: currentVerse.number,
+          verseText: currentVerse.text,
+          input: restoredInput,
+        });
       }
       setTimeout(() => inputRef.current?.focus(), 50);
     }
-  }, [phase, currentVerse, typing.start]);
+  }, [phase, currentVerse, typing.start, mode, seqState, resume.save]);
 
   const handleSelectTranslation = useCallback(
     async (translationId: string) => {
       sound.init();
+      setBooks([]);
       await db.saveSettings({
         translationId,
         soundEnabled: db.settings?.soundEnabled ?? true,
+        hapticsEnabled: db.settings?.hapticsEnabled ?? true,
         lastBookCode: db.settings?.lastBookCode,
         lastChapter: db.settings?.lastChapter,
       });
@@ -159,6 +219,44 @@ export function BibleScribe() {
     },
     [db.settings, api],
   );
+
+  const handleContinue = useCallback(async () => {
+    const settings = db.settings;
+    const saved = resume.position;
+    const bookCode = saved?.bookCode ?? settings?.lastBookCode;
+    const chapter = saved?.chapter ?? settings?.lastChapter;
+    if (!settings?.translationId || !bookCode || !chapter) return;
+
+    setMode("sequential");
+    setLoadingData(true);
+    try {
+      let bookList = books;
+      if (bookList.length === 0) {
+        bookList = await api.loadBooks(settings.translationId);
+        setBooks(bookList);
+      }
+
+      const book = bookList.find((item) => item.id === bookCode);
+      if (!book) return;
+
+      const data = await api.loadChapter(settings.translationId, bookCode, chapter);
+      pendingResumeRef.current = saved ?? null;
+      setSeqState({
+        bookCode,
+        bookName: data.bookName,
+        chapter,
+        verses: data.verses,
+        verseIdx: Math.max(
+          0,
+          data.verses.findIndex((verse) => verse.number === saved?.verseNumber),
+        ),
+        totalChapters: book.numberOfChapters,
+      });
+      setPhase("typing");
+    } finally {
+      setLoadingData(false);
+    }
+  }, [api, books, db.settings, resume.position]);
 
   const handleSelectBook = useCallback((book: BibleBook) => {
     setSeqState({
@@ -231,6 +329,20 @@ export function BibleScribe() {
     }
   }, [mode, seqState, randomIdx, randomVerses.length, db, sound]);
 
+  const saveInput = useCallback(
+    (input: string) => {
+      if (mode !== "sequential" || !seqState || !currentVerse) return;
+      resume.save({
+        bookCode: seqState.bookCode,
+        chapter: seqState.chapter,
+        verseNumber: currentVerse.number,
+        verseText: currentVerse.text,
+        input,
+      });
+    },
+    [mode, seqState, currentVerse, resume.save],
+  );
+
   const handleInput = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
       if (phase !== "typing") return;
@@ -242,8 +354,9 @@ export function BibleScribe() {
       if ((e.nativeEvent as InputEvent).isComposing) return;
       const val = (e.target as HTMLInputElement).value;
       typing.handleInput(val);
+      saveInput(val);
     },
-    [phase, typing.state.done, typing.handleInput],
+    [phase, typing.state.done, typing.handleInput, saveInput],
   );
 
   const handleKeyDown = useCallback(
@@ -359,8 +472,25 @@ export function BibleScribe() {
               </button>
             )}
             {db.settings && (
-              <button type="button" className="bs-icon-btn" onClick={db.toggleSound}>
+              <button
+                type="button"
+                className="bs-icon-btn"
+                onClick={db.toggleSound}
+                title={db.settings.soundEnabled ? "Turn sound off" : "Turn sound on"}
+                aria-label={db.settings.soundEnabled ? "Turn sound off" : "Turn sound on"}
+              >
                 {db.settings.soundEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
+              </button>
+            )}
+            {db.settings && (
+              <button
+                type="button"
+                className="bs-icon-btn"
+                onClick={db.toggleHaptics}
+                title={db.settings.hapticsEnabled ? "Turn haptics off" : "Turn haptics on"}
+                aria-label={db.settings.hapticsEnabled ? "Turn haptics off" : "Turn haptics on"}
+              >
+                {db.settings.hapticsEnabled ? <Vibrate size={18} /> : <VibrateOff size={18} />}
               </button>
             )}
             <DarkModeToggle icon={theme.icon} onCycle={theme.cycle} />
@@ -384,10 +514,11 @@ export function BibleScribe() {
           {phase === "mode-select" && !loadingData && (
             <ModeSelect
               onSelect={handleSelectMode}
+              onContinue={handleContinue}
               onChangeTranslation={() => setPhase("translation-select")}
               translationName={translationName}
-              lastBookCode={db.settings?.lastBookCode}
-              lastChapter={db.settings?.lastChapter}
+              lastBookCode={resume.position?.bookCode ?? db.settings?.lastBookCode}
+              lastChapter={resume.position?.chapter ?? db.settings?.lastChapter}
               books={books}
             />
           )}
@@ -429,7 +560,9 @@ export function BibleScribe() {
               typingState={typing.state}
               verseText={currentVerse.text}
               composingText={composingText}
-              copyright={getTranslationById(db.settings?.translationId ?? "")?.copyright}
+              copyright={
+                providerCopyright ?? getTranslationById(db.settings?.translationId ?? "")?.copyright
+              }
               onBack={() => setPhase(mode === "sequential" ? "chapter-select" : "mode-select")}
               onJumpVerse={(idx) => {
                 if (mode === "sequential") {
@@ -528,6 +661,7 @@ export function BibleScribe() {
               setComposingText("");
               const val = (e.target as HTMLInputElement).value;
               typing.handleCompositionEnd(val);
+              saveInput(val);
             }}
             onKeyDown={handleKeyDown}
             onChange={() => {}}

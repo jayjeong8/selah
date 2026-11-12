@@ -1,0 +1,10 @@
+.git
+.claude
+build
+screenshots
+my-app/node_modules
+my-app/.next
+my-app/out
+my-app/ios
+.env*
+my-app/.env*

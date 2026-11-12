@@ -59,7 +59,8 @@
 .bs-container {
   max-width: 480px;
   margin: 0 auto;
-  padding: 24px 16px;
+  padding: calc(24px + env(safe-area-inset-top, 0px)) calc(16px + env(safe-area-inset-right, 0px))
+    calc(24px + env(safe-area-inset-bottom, 0px)) calc(16px + env(safe-area-inset-left, 0px));
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
@@ -317,6 +318,12 @@
   gap: 14px;
 }
 
+.bs-mode-card-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 .bs-mode-card {
   background: var(--bs-bg);
   border: 1px solid var(--bs-border);
@@ -375,10 +382,19 @@
 }
 
 .bs-mode-continue {
+  background: none;
+  border: none;
+  cursor: pointer;
   font-size: 0.72rem;
   color: var(--bs-gold);
-  margin-top: 10px;
+  padding: 4px 8px;
+  font-family: inherit;
   font-style: italic;
+}
+
+.bs-mode-continue:hover {
+  color: var(--bs-accent);
+  text-decoration: underline;
 }
 
 /* ── Book Select ── */
@@ -529,7 +545,8 @@
    ══════════════════════════════════════════ */
 
 .bs-typing-header {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   justify-content: space-between;
   align-items: center;
   position: relative;
@@ -539,15 +556,19 @@
 }
 
 .bs-typing-header .bs-back-btn {
+  justify-self: start;
   position: relative;
   z-index: 1;
   margin: 0;
 }
 
 .bs-typing-location {
-  position: absolute;
-  left: 0;
-  right: 0;
+  grid-column: 2;
+  grid-row: 1;
+  max-width: min(48vw, 220px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   text-align: center;
   font-size: 0.9rem;
   font-weight: 700;
@@ -557,6 +578,11 @@
 }
 
 .bs-typing-counter {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+  min-width: 3.2em;
+  white-space: nowrap;
   position: relative;
   z-index: 1;
   font-size: 0.75rem;
@@ -832,6 +858,30 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.bs-bookmark-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 16px;
+  color: var(--bs-secondary);
+}
+
+.bs-bookmark-empty-icon {
+  margin-bottom: 12px;
+  color: var(--bs-secondary);
+}
+
+.bs-bookmark-empty-title {
+  font-size: 1rem;
+}
+
+.bs-bookmark-empty-copy {
+  margin-top: 4px;
+  font-size: 0.8rem;
 }
 
 .bs-bookmark-item {

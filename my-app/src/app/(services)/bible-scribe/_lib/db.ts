@@ -8,6 +8,8 @@ interface CachedChapter {
   bookName: string;
   chapter: number;
   verses: BibleVerse[];
+  /** Absolute expiry derived from the provider's Cache-Control max-age. */
+  expiresAt?: number;
 }
 
 interface BibleScribeDB extends DBSchema {
@@ -70,7 +72,11 @@ function progressKey(translationId: string, bookCode: string, chapter: number): 
 
 export async function getSettings(): Promise<BibleScribeSettings | undefined> {
   const db = await getDB();
-  return db.get("settings", SETTINGS_KEY);
+  const settings = await db.get("settings", SETTINGS_KEY);
+  if (!settings) return undefined;
+
+  // Keep existing installs enabled when they predate the haptics setting.
+  return { ...settings, hapticsEnabled: settings.hapticsEnabled ?? true };
 }
 
 export async function putSettings(settings: BibleScribeSettings): Promise<void> {
@@ -131,7 +137,19 @@ export async function getCachedChapter(
 ): Promise<CachedChapter | undefined> {
   const db = await getDB();
   const key = progressKey(translationId, bookCode, chapter);
-  return db.get("cache", key);
+  const cached = await db.get("cache", key);
+  // Entries created before provider-aware caching did not carry an expiry.
+  // Treat those YouVersion entries as stale so they cannot bypass the API's
+  // current Cache-Control directive.
+  if (
+    cached &&
+    ((cached.translationId.startsWith("yv:") && cached.expiresAt === undefined) ||
+      (cached.expiresAt !== undefined && cached.expiresAt <= Date.now()))
+  ) {
+    await db.delete("cache", key);
+    return undefined;
+  }
+  return cached;
 }
 
 export async function putCachedChapter(
@@ -140,10 +158,11 @@ export async function putCachedChapter(
   bookName: string,
   chapter: number,
   verses: BibleVerse[],
+  expiresAt?: number,
 ): Promise<void> {
   const db = await getDB();
   const key = progressKey(translationId, bookCode, chapter);
-  await db.put("cache", { key, translationId, bookCode, bookName, chapter, verses });
+  await db.put("cache", { key, translationId, bookCode, bookName, chapter, verses, expiresAt });
 }
 
 // ── Export / Import ──
